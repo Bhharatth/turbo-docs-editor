@@ -17,5 +17,9 @@
     "react": "^18.2.0",
     "tsconfig": "*",
     "typescript": "^4.5.2"
+  },
+  "dependencies": {
+    "@react-icons/all-files": "^4.1.0",
+    "react-icons": "^4.11.0"
   }
 }

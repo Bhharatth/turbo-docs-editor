@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Quill from "quill";
 import "quill/dist/quill.snow.css";
-import { Button, Card, Newbutton } from 'ui';
+import { Button, Card, NavBar, Newbutton } from 'ui';
 
 const TOOLBAR_OPTIONS = [
     [{ header: [1, 2, 3, 4, 5, 6, false] }],
@@ -42,7 +42,8 @@ const Texteditor = () => {
 
     return (
         <div className="container">
-        <div id="editor-wrapper" ref={wrapperRef}></div>
+          <NavBar/>
+        {/* <div id="editor-wrapper" ref={wrapperRef}></div> */}
    
       </div>
     )
