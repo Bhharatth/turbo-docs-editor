@@ -7,7 +7,7 @@ import { CgProfile } from "react-icons/cg";
 
 export function NavBar() {
     return (
-        <div className="flex flex-row justify-between align-center w-25 mt-8 w-">
+        <div className="flex flex-row justify-between align-center w-25 mt-8 ">
             <div className="flex flex-row ">
                 <div className=" rounded-full p-2 shadow-md h-25">
                     <BiAlignJustify className="text-xl mt-5" />

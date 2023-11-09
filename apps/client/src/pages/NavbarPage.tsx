@@ -28,16 +28,24 @@ const NavbarPage=()=> {
                 </div>
             </div>
             <div className="flex flex-row">
-                <div>  <div className="flex items-center bg-white border border-gray-300 rounded-full p-3 shadow-md">
-                    <FaSearch className="text-gray-500" />
-                    <input
-                        type="text"
-                        placeholder="Search Google"
-                        className="flex-grow ml-3 outline-none"
-                    />
-                </div>
-                </div>
-            </div>
+    <div className="hidden md:block"> 
+        <div className="flex items-center bg-white border border-gray-300 rounded-full p-3 shadow-md ">
+            <FaSearch className="text-gray-500" />
+            <input
+                type="text"
+                placeholder="Search here"
+                className="flex-grow ml-3 outline-none"
+            />
+        </div>
+    </div>
+
+    <div className="md:hidden"> 
+        <div className="flex items-center bg-white border border-gray-300 rounded-full p-3 shadow-md ">
+            <FaSearch className="text-gray-500" />
+        </div>
+    </div>
+</div>
+
             <div className="flex flex-row justify-between p-5 bg-gray-100">
       <div className="m-2 p-2 rounded-full bg-white shadow-md">
         <FaShare className="text-blue-500" />
