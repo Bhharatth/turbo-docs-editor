@@ -1,15 +1,4 @@
-// import React from 'react'
-// import { NavBar } from 'ui'
 
-// const NavbarPage = () => {
-//   return (
-//     <div className='bg-red-200 w-full   align-center'>
-//       <NavBar/>
-//     </div>
-//   )
-// }
-
-// export default NavbarPage
 
 import * as React from "react";
 import { BiAlignJustify } from "react-icons/bi";
@@ -18,14 +7,17 @@ import { FaSearch } from "react-icons/fa";
 import { CgMenuGridO } from "react-icons/cg";
 import { CgProfile } from "react-icons/cg";
 import { FaShare } from "react-icons/fa";
+import MenubarDemo from "./Menubar";
 
 const NavbarPage=()=> {
     return (
-        <div className="flex flex-row justify-between items-center w-full h-30  bg-gray-100   box-border">
-            <div className="flex flex-row  justify-between align-center">
-                <div className=" rounded-full p-2 shadow-md ml-10">
+        
+        <div className="flex flex-row justify-between items-center w-full h-30 bg-gray-100 box-border z-20">
+        <div className="flex flex-row justify-between align-center">
+                {/* <div className=" rounded-full p-2 shadow-md ml-10">
                     <BiAlignJustify className="text-xl mt-auto " />
-                </div>
+                </div> */}
+                <MenubarDemo />
             </div>
             <div className="flex flex-row">
     <div className="hidden md:block"> 
