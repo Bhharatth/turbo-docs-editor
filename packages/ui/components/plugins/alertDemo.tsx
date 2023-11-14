@@ -1,8 +1,16 @@
 'use client'
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import * as AlertDialog from '@radix-ui/react-alert-dialog';
 
-const AlertDialogDemo = () => (
+const AlertDialogDemo = ({onClick,id,children}: any) => {
+ 
+    const [docId, setDocId] = useState(id);
+
+   
+
+
+  
+  return (
   <AlertDialog.Root>
     <AlertDialog.Trigger asChild>
       <button className="text-[13px] leading-none text-violet11 rounded flex items-center h-[25px] px-[10px] relative select-none outline-none data-[state=open]:bg-violet4 data-[state=open]:text-violet11 data-[highlighted]:bg-gradient-to-br data-[highlighted]:from-violet9 data-[highlighted]:to-violet10 data-[highlighted]:text-violet1 data-[highlighted]:data-[state=open]:text-violet1 data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none">
@@ -26,14 +34,21 @@ const AlertDialogDemo = () => (
             </button>
           </AlertDialog.Cancel>
           <AlertDialog.Action asChild>
-            <button className="text-red11 bg-red-500 text-white hover:bg-red5 focus:shadow-red7 inline-flex h-[35px] items-center justify-center rounded-[4px] px-[15px] font-medium leading-none outline-none focus:shadow-[0_0_0_2px]">
-              Yes, delete account
+            <button className="text-red11 bg-red-500 text-white hover:bg-red5 focus:shadow-red7 inline-flex h-[35px] items-center justify-center rounded-[4px] px-[15px] font-medium leading-none outline-none focus:shadow-[0_0_0_2px]"
+            onClick={async()=> {
+              onClick(docId)
+            }}>
+              {/* Yes, delete account */}
+              {children}
             </button>
           </AlertDialog.Action>
         </div>
       </AlertDialog.Content>
     </AlertDialog.Portal>
   </AlertDialog.Root>
-);
+)};
 
 export default AlertDialogDemo;
+
+
+{/* <AlertDialogDemo children={"yes delete"} onClick={handleDeleteClick} id={'appu'}/> */}

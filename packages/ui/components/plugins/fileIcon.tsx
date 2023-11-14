@@ -1,7 +1,20 @@
 import React from 'react';
 import { LiaFileSolid } from "react-icons/lia";
+import AlertDialogDemo from 'ui/components/plugins/alertDemo';
+import { PassThrough } from 'stream';
+import ToastDemo from 'ui/components/plugins/toastDemo';
+
+// type fileProps{
+    
+// }
 
 const files = () => {
+    const username: string = 'appu';
+
+    const handleDeleteClick = (id: string) => {
+        alert(id);
+    };
+
     return (
         <div className="bg-white border border-solid border-gray-300 rounded cursor-pointer overflow-hidden relative mb-10 p-4 w-1/6 h-1/6">
             <LiaFileSolid className="w-full h-full border border-solid border-gray-300 rounded sm:border-0 md:border-1 lg:border-1" />
@@ -20,6 +33,8 @@ const files = () => {
                     Delete
                 </button>
             </div>
+            // Example usage
+    
         </div>
     )
 }
