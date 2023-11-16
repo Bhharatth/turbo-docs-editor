@@ -17,6 +17,7 @@ CREATE TABLE "Docs" (
     "type" TEXT NOT NULL,
     "access_token" TEXT,
     "title" TEXT NOT NULL,
+    "title1" TEXT,
     "docsData" JSONB NOT NULL,
 
     CONSTRAINT "Docs_pkey" PRIMARY KEY ("id")

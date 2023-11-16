@@ -1,5 +1,5 @@
 module.exports = {
   reactStrictMode: true,
   cssModules: true,
-  transpilePackages: ["ui"],
+  transpilePackages: ["ui","prisma"],
 };

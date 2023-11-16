@@ -9,6 +9,7 @@
   "devDependencies": {
     "eslint": "^8.48.0",
     "prettier": "^3.0.3",
+    "prisma": "^5.6.0",
     "tsconfig": "*",
     "turbo": "latest"
   },
@@ -19,6 +20,7 @@
     "packages/*"
   ],
   "dependencies": {
+    "@prisma/client": "^5.6.0",
     "dotenv-flow": "^4.0.1"
   }
 }
