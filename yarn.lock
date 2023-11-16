@@ -517,6 +517,23 @@
     picocolors "^1.0.0"
     tslib "^2.6.0"
 
+"@prisma/client@5.6.0":
+  version "5.6.0"
+  resolved "https://registry.yarnpkg.com/@prisma/client/-/client-5.6.0.tgz#1c15932250d5658fe0127e62faf4ecd96a877259"
+  integrity sha512-mUDefQFa1wWqk4+JhKPYq8BdVoFk9NFMBXUI8jAkBfQTtgx8WPx02U2HB/XbAz3GSUJpeJOKJQtNvaAIDs6sug==
+  dependencies:
+    "@prisma/engines-version" "5.6.0-32.e95e739751f42d8ca026f6b910f5a2dc5adeaeee"
+
+"@prisma/engines-version@5.6.0-32.e95e739751f42d8ca026f6b910f5a2dc5adeaeee":
+  version "5.6.0-32.e95e739751f42d8ca026f6b910f5a2dc5adeaeee"
+  resolved "https://registry.yarnpkg.com/@prisma/engines-version/-/engines-version-5.6.0-32.e95e739751f42d8ca026f6b910f5a2dc5adeaeee.tgz#57b003ab5e1ea1523b5cdd7f06b24ebcf5c7fd8c"
+  integrity sha512-UoFgbV1awGL/3wXuUK3GDaX2SolqczeeJ5b4FVec9tzeGbSWJboPSbT0psSrmgYAKiKnkOPFSLlH6+b+IyOwAw==
+
+"@prisma/engines@5.6.0":
+  version "5.6.0"
+  resolved "https://registry.npmjs.org/@prisma/engines/-/engines-5.6.0.tgz"
+  integrity sha512-Mt2q+GNJpU2vFn6kif24oRSBQv1KOkYaterQsi0k2/lA+dLvhRX6Lm26gon6PYHwUM8/h8KRgXIUMU0PCLB6bw==
+
 "@radix-ui/primitive@1.0.1":
   version "1.0.1"
   resolved "https://registry.npmjs.org/@radix-ui/primitive/-/primitive-1.0.1.tgz"
@@ -1956,7 +1973,14 @@ dot-case@^2.1.0:
   dependencies:
     no-case "^2.2.0"
 
-dotenv@16.0.3:
+dotenv-flow@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.npmjs.org/dotenv-flow/-/dotenv-flow-4.0.1.tgz"
+  integrity sha512-HuCQ487bSA43mtlxdWpyk5jt5Lljy+v1I8y/2l96gtjSve9p3OvJZCCOhQnz2hY4VhLogFfXpY20zBygMwaydA==
+  dependencies:
+    dotenv "^16.0.0"
+
+dotenv@16.0.3, dotenv@^16.0.0:
   version "16.0.3"
   resolved "https://registry.npmjs.org/dotenv/-/dotenv-16.0.3.tgz"
   integrity sha512-7GO6HghkA5fYG9TYnNxi14/7K9f5occMlp3zXAuSxn7CKCxt9xbNWG7yF8hTCSUchlfWSe3uLmlPfigevRItzQ==
@@ -4154,6 +4178,13 @@ prettier@^3.0.3:
   version "3.0.3"
   resolved "https://registry.npmjs.org/prettier/-/prettier-3.0.3.tgz"
   integrity sha512-L/4pUDMxcNa8R/EthV08Zt42WBO4h1rarVtK0K+QJG0X187OLo7l699jWw0GKuwzkPQ//jMFA/8Xm6Fh3J/DAg==
+
+prisma@^5.6.0:
+  version "5.6.0"
+  resolved "https://registry.npmjs.org/prisma/-/prisma-5.6.0.tgz"
+  integrity sha512-EEaccku4ZGshdr2cthYHhf7iyvCcXqwJDvnoQRAJg5ge2Tzpv0e2BaMCp+CbbDUwoVTzwgOap9Zp+d4jFa2O9A==
+  dependencies:
+    "@prisma/engines" "5.6.0"
 
 prop-types@^15.8.1:
   version "15.8.1"
