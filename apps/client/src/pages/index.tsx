@@ -117,10 +117,49 @@
 //   )
 // }
 
+// import { trpc } from '../utils/trpc';
+
+// export default function IndexPage() {
+//   const userQuery = trpc.user.me.useQuery();
+//   if (userQuery.isLoading) {
+//     return <div>Loading...</div>;
+//   }
+//   if (userQuery.error) {
+//     return <Signup />
+//   }
+//   return (
+//     <div>
+//       <p>HI {userQuery.data.email}</p>
+//     </div>
+//   );
+// }
+
+// function Signup() {
+//   return <div>
+//     Signup page
+//   </div>
+// }
+
+// import { trpc } from '../utils/trpc';
+// export default function IndexPage() {
+//   const hello = trpc.hello.useQuery({ text: 'client' });
+//   if (!hello.data) {
+//     return <div>Loading...</div>;
+//   }
+//   return (
+//     <div>
+//       <p>{hello.data.greeting}</p>
+//     </div>
+//   );
+// }
 import { trpc } from '../utils/trpc';
 
 export default function IndexPage() {
-  const userQuery = trpc.user.me.useQuery();
+  const userQuery = trpc.user.signup.useMutation({
+    // Provide the necessary mutation options directly
+    // This assumes that your signup mutation expects 'username' and 'password' as arguments
+  
+  });
   if (userQuery.isLoading) {
     return <div>Loading...</div>;
   }
@@ -129,13 +168,34 @@ export default function IndexPage() {
   }
   return (
     <div>
-      <p>HI {userQuery.data.email}</p>
+      <p>HI <Signup /></p>
+      {/* <p>HI <Todo /></p> */}
     </div>
   );
 }
 
 function Signup() {
+  const createUser = trpc.user.signup.useMutation()
+
   return <div>
-    Signup page
+  <button onClick={()=> {
+    createUser.mutate({
+      username: "appudzxcd",
+      password: "123d"
+    })
+  }}>signup</button>
   </div>
 }
+
+// function Todo(){
+//   const todoCreate = trpc.todo.todoCreate.useMutation();
+
+//   return <div>
+//     <button onClick={()=> {
+//       todoCreate.mutate({
+//         title: "title",
+//         description: "desc"
+//       })
+//     }}>create todo</button>
+//   </div>
+// }

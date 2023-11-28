@@ -21,6 +21,7 @@
   ],
   "dependencies": {
     "@prisma/client": "^5.6.0",
+    "create-t3-app": "^7.23.2",
     "dotenv-flow": "^4.0.1"
   }
 }

@@ -3,14 +3,15 @@ import { createHTTPServer } from '@trpc/server/adapters/standalone';
 import mongoose, { mongo } from 'mongoose';
 import { User , Todo} from "./db";
 import jwt from "jsonwebtoken";
-
 import { userRouter } from './routers/user';
 import { todoRouter } from './routers/todo';
-
 import cors from "cors";
 export const SECRET = 'SECr3t';
 
-mongoose.connect('mongodb+srv://kirattechnologies:iRbi4XRDdM7JMMkl@cluster0.e95bnsi.mongodb.net/admin?authSource=admin&replicaSet=atlas-ue73sj-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true', { dbName: "todo" });
+// mongoose.connect('mongodb+srv://appu:appu123@cluster0.b090cku.mongodb.net/?retryWrites=true&w=majority');
+
+mongoose.connect('mongodb://localhost:27017');
+
 
 // using trpc
 export const appRouter = router({
