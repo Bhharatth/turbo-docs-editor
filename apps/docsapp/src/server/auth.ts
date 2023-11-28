@@ -93,27 +93,24 @@ export const authOptions: NextAuthOptions = {
           return null
         };
         console.log('user not null')
-        // if(creds.password && user.password){
-        //   const isCorrectPassword = await bcrypt.compare(
-        //     creds.password,
-        //     user.password
-        //   );
+        if(creds.password && user.password){
+          const isCorrectPassword = await bcrypt.compare(
+            creds.password,
+            user.password
+          );
 
-        //   if (!isCorrectPassword) {
-        //     throw new Error('Invalid credentials');
-        //   }
-        // }else{
-        //   throw new Error('Invalid credentials');
-        // }
-        console.log('passwords are correct')
+          if (!isCorrectPassword) {
+            throw new Error('Invalid credentials');
+          }
+        }else{
+          throw new Error('Invalid credentials');
+        }
 
-        // if(!(user.password === creds.password)){
-        //   return null
-        // }
+       
 
-        // if (user) {
-        //   console.log("User logged in : ", user);
-        // }
+        if (user) {
+          console.log("User logged in : ", user);
+        }
 
         return {
           ...user,

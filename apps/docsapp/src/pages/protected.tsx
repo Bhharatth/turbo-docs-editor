@@ -3,11 +3,11 @@ import { signOut, useSession } from "next-auth/react";
 
 const Protected: NextPage=():JSX.Element=> {
     const session = useSession();
-    console.log(session)
+    console.log(session.status)
     return  (
         <div>
         <div>This page is protected</div>
-        {session && (
+        {session.status ==="authenticated" && (
           <button onClick={() => signOut()}>Logout</button>
         )}
       </div>

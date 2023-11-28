@@ -1,12 +1,14 @@
 import { NextPage } from "next";
-import { signIn, useSession } from "next-auth/react";
-import React, { FormEventHandler, useState } from "react";
-// import { getSession,useSession } from 'next-auth/react';
+import React, {  useState } from "react";
 import * as Form from '@radix-ui/react-form';
-import { RouterOutputs, api } from "@/utils/api";
-// import { useMutation } from "@tanstack/react-query";
+import {  api } from "@/utils/api";
 import { useRouter } from "next/navigation";
+import { useToasts } from 'react-toast-notifications';
+
 import { FaGithub } from "react-icons/fa";
+import { object } from "zod";
+import { SignUpResponse } from "@/common/authSchema";
+
 interface Props {}
 
 const SignUp: NextPage = (props): JSX.Element => {
@@ -16,13 +18,24 @@ const SignUp: NextPage = (props): JSX.Element => {
   const [userName, setuserName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+
+
+  const { addToast } = useToasts();
+  const createUsers = api.account.signup.useMutation<SignUpResponse>({
+    onSuccess: (res)=> {
+      if(res){
+        console.log('User created successfully');
+        addToast(res.message, { appearance: 'success', containerId: 'specificDivId' });
+      }
   
-
-
-  const createUsers = api.account.signup.useMutation({
-    onSuccess: ()=> {
-      console.log('User created successfully')
       // router.push("/")
+    },
+    onError:(error)=> {
+      if (error.message === 'FORBIDDEN') {
+        addToast(error.message, { appearance: 'error', containerId: 'specificDivId',autoDismiss: true });
+      } else {
+        addToast(error.message, { appearance: 'error', containerId: 'specificDivId',autoDismiss: true  });
+      }
     }
   });
   
@@ -36,12 +49,10 @@ const SignUp: NextPage = (props): JSX.Element => {
         password,
       });
       console.log('User created successfully');
-      // Optionally, sign in the user after successful registration
       
       console.log('User signed in:', res);
     } catch (error) {
       console.error('Error creating user:', error);
-      // Handle error (display error message, etc.)
     }
   };
 
@@ -65,6 +76,9 @@ const SignUp: NextPage = (props): JSX.Element => {
         or login with github
       <FaGithub className="w-8 h-8 mr-5 ml-5 "/>
     </button> */}
+      <div id="specificDivId" >
+        
+    </div>
     </div>
     <div className='flex items-center justify-center h-screen'>
      <div>
@@ -133,10 +147,6 @@ const SignUp: NextPage = (props): JSX.Element => {
         />
       </Form.Control>
     </Form.Field>
-
-
-
-
    
     <Form.Submit asChild>
       <button className="text-white bg-gradient-to-br from-purple-600  to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm mt-8 px-5 py-2.5 text-center mr-2 mb-2 w-full"

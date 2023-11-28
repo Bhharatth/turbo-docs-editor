@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z, ZodError } from "zod";
 import { loginSchema, signUpSchema } from "@/common/authSchema";
 import bcrypt from 'bcrypt';
 import {
@@ -6,16 +6,16 @@ import {
   protectedProcedure,
   publicProcedure,
 } from "@/server/api/trpc";
-import { contextProps } from "@trpc/react-query/shared";
 import { TRPCError } from "@trpc/server";
-// import { hashPassword } from "@/utils/passwordUtils";
 
 
 
 export const accountRouter = createTRPCRouter({
   signup: publicProcedure.input(signUpSchema)
     .mutation(async({ input,ctx }) => {
-    const validateInput = signUpSchema.parse(input);
+
+      try {
+        const validateInput = signUpSchema.parse(input);
 
     const {userName, email, password} = validateInput;
     const checkIfEmailExists = await ctx.db.user.findFirst({
@@ -28,6 +28,7 @@ export const accountRouter = createTRPCRouter({
         code: "FORBIDDEN"
       });
     }
+    
     const hashedPassword = await bcrypt.hash(password, 12);
 
     const res = await ctx.db.user.create({
@@ -43,7 +44,26 @@ export const accountRouter = createTRPCRouter({
       status: 201,
       res: res.email
     }
+        
+      } catch (error) {
+        if (error instanceof ZodError) {
+          const validationErrors = error.errors.map((validationError) => {
+            return {
+              // path: validationError.path.join("."),
+              message: validationError.message,
+            };
+          });
+    
+          return {
+            message: "Validation error",
+            code: "BAD_REQUEST",
+            validationErrors,
+          };
+        
+      }
+    
     }
+  }
     
   ),
 

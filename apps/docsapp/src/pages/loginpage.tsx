@@ -3,32 +3,38 @@ import * as Form from '@radix-ui/react-form';
 import {Button} from "ui"
 import { signIn, useSession } from "next-auth/react";
 import { FaGithub } from "react-icons/fa";
+import { useToasts } from 'react-toast-notifications';
 
 function Login() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const session = useSession()
-
+  const {data, status} = useSession()
+  const { addToast } = useToasts();
   const handleSubmit = async (e:any) => {
     e.preventDefault();
 
     try {
-      await signIn("credentials", {
+        signIn("credentials", {
         email,
         password,
-        redirect: true
-      });
+        redirect: false
+      })
       await new Promise((resolve) => setTimeout(resolve, 
-        5000));
-      console.log('User logged in successfully', session);
+        3000));
+      console.log('User logged in successfully', data);
+
+      if(!data){
+
+        addToast("user not logged in", { appearance: 'error', containerId: 'specificDivId' });
+      }
     } catch (error) {
       console.error('Failed to sign in', error);
+      addToast("please enter correct email and password", { appearance: 'success', containerId: 'specificDivId' });
     }
  
-
   }
-  console.log(session)
+  
 
   return (
     <section className="bg-center bg-no-repeat bg-[url('https://flowbite.s3.amazonaws.com/docs/jumbotron/conference.jpg')] bg-gray-700 bg-blend-multiply overflow-hidden z-0">
@@ -40,6 +46,7 @@ function Login() {
       <button
         className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 w-25 mx-20 "
         type="button"
+        // disabled={}
       >
         Login
       </button>
@@ -47,6 +54,9 @@ function Login() {
         or login with github
       <FaGithub className="w-8 h-8 mr-5 ml-5 "/>
     </button> */}
+    </div>
+    <div id="specificDivId" >
+        
     </div>
     <div className='flex items-center justify-center h-screen'>
      <div>
@@ -104,7 +114,8 @@ function Login() {
    
     <Form.Submit asChild>
       <button className="text-white bg-gradient-to-br from-purple-600  to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm mt-8 px-5 py-2.5 text-center mr-2 mb-2 w-full"
-      onClick={handleSubmit}>
+      onClick={handleSubmit}
+      disabled={status === "loading"}>
         Signup
       </button>
     </Form.Submit>
