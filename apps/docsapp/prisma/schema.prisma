@@ -66,12 +66,13 @@ model VerificationToken {
 model Docs {
   id        Int      @id @default(autoincrement())
   name      String
-  quillContent Json  // New field to store Quill editor content
+  quillContent Json[]  // New field to store Quill editor content
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
   createdBy   User   @relation(fields: [createdById], references: [id])
   createdById String
-
   @@index([name])
 }
+
+
+
+//   updatedAt DateTime @updatedAt

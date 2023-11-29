@@ -6,6 +6,7 @@ import { ToastProvider } from 'react-toast-notifications';
 import { api } from "@/utils/api";
 
 import "@/styles/globals.css";
+import Navbar from "ui/components/Navbar";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -14,6 +15,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
   return (
     <ToastProvider>
     <SessionProvider session={session}>
+      <Navbar/>
       <Component {...pageProps} />
     </SessionProvider>
     </ToastProvider>
