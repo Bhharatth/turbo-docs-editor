@@ -1,9 +1,11 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Quill from "quill";
+import {  api } from "@/utils/api";
 import "quill/dist/quill.snow.css";
 import { appendFile } from 'fs';
-// import { Button, Card,  Newbutton } from 'ui';
-// import '@/styles/globals.css'
+import { signOut, useSession } from "next-auth/react";
+import { NextPage } from "next";
+
 
 const TOOLBAR_OPTIONS = [
   [{ header: [1, 2, 3, 4, 5, 6, false] }],
@@ -17,14 +19,26 @@ const TOOLBAR_OPTIONS = [
   ["clean"],
 ]
 
-const Texteditor = () => {
+const Texteditor:NextPage=():JSX.Element=>  {
+
+    const session = useSession();
+    const userId = session.data?.user.id
+    console.log(userId)
 
   const [quill, setQuill] = useState<Quill | null>(null);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
-  const [currentQuill, setCurrentQuill] = useState<Quill | null>(null);
+  const [currentQuill, setCurrentQuill] = useState<string>("1");
 
 
-
+const createDocs = api.post.saveQuillDocs.useMutation({
+    onSuccess: (res)=> {
+        console.log("doc created successfully", res)
+    },
+    onError: (error)=> {
+        alert(error);
+        console.log(error)
+    }
+})
 
 
 
@@ -52,14 +66,25 @@ const Texteditor = () => {
     });
   }, []);
 
-  const handleSave = {
-     
-
+  //   console.log(delta1)
+  
+  const handleSave = async()=> {
+      const  delta = quill?.getContents();
+      if (!delta) {
+        console.error('Quill content is empty');
+        return;
+      }
+    const res = await createDocs.mutate({
+       name: "new docs",
+       quillContent: delta.ops.map((item) => ({
+        insert: typeof item.insert === 'string' ? item.insert : '',
+      attributes: item.attributes || {},
+      })),
+       createdById: userId || "",
+      });
   }
 
-  
-
-  console.log(quill)
+//   console.log(quill)
 
   return (
     <div className='relative'>
@@ -69,7 +94,7 @@ const Texteditor = () => {
       <div className="container">
         <div  id="editor-wrapper" ref={wrapperRef}></div>
       </div>
-      <button onClick={handleSave}>save</button>
+      <button onClick={handleSave} >save</button>
     </div>
 
   )

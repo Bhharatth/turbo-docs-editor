@@ -5,14 +5,7 @@ import "quill/dist/quill.snow.css";
 import { appendFile } from 'fs';
 import { signOut, useSession } from "next-auth/react";
 import { NextPage } from "next";
-// import { Button, Card,  Newbutton } from 'ui';
-// import '@/styles/globals.css'
 
-// const session = useSession();
-// if(session){
-
-//     console.log(session)
-// }
 
 const TOOLBAR_OPTIONS = [
   [{ header: [1, 2, 3, 4, 5, 6, false] }],

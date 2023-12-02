@@ -8,12 +8,13 @@ import { docValidationSchema } from "@/common/authSchema";
 import { Session } from "inspector";
 import { contextProps } from "@trpc/react-query/shared";
 import Email from "next-auth/providers/email";
+import { TRPCError } from "@trpc/server";
 
 export const postRouter = createTRPCRouter({
   saveQuillDocs: publicProcedure
     .input(docValidationSchema)
     .mutation(async ({ ctx, input }) => {
-      
+
       const userId = ctx.session?.user.id;
 
       if (!userId) {
@@ -22,7 +23,7 @@ export const postRouter = createTRPCRouter({
 
       const res = await ctx.db.docs.create({
         data: {
-          quillContent: input.quillContent.map((item)=> ({
+          quillContent: input.quillContent.map((item) => ({
             insert: item.insert,
             attributes: item.attributes,
           })),
@@ -34,9 +35,9 @@ export const postRouter = createTRPCRouter({
       return res;
     }),
 
-    getQuillDocs: publicProcedure
+  getQuillDocs: publicProcedure
     .query(async ({ ctx, input }) => {
-      
+
       const userEmail = ctx.session?.user.email;
 
       if (!userEmail) {
@@ -45,7 +46,7 @@ export const postRouter = createTRPCRouter({
 
       const res = await ctx.db.user.findUnique({
         where: {
-          email:userEmail
+          email: userEmail
         },
         include: {
           docs: true,
@@ -58,5 +59,42 @@ export const postRouter = createTRPCRouter({
       // }))
 
       return res?.docs;
+    }),
+  getSingleQuillDoc: publicProcedure.input(z.object({ docId: z.string() }))
+    .query(async ({ ctx, input }) => {
+
+      const userSession = ctx.session?.user;
+
+      if (!userSession) {
+        throw new Error("User ID not found in session");
+      }
+
+      const res = await ctx.db.docs.findUnique({
+        where: {
+          id: parseInt(input.docId),
+          createdBy: { id: userSession.id }
+        },
+
+
+      });
+
+      if(!res){
+        throw new TRPCError({
+          message: "can find docs right now",
+          code: "NOT_FOUND"
+        });
+      }
+
+
+      const transformedData = {
+        name: res.name,
+        quillContent: res.quillContent.map((item) => ({
+          insert: item.insert,
+          attributes: item.attributes,
+        })),
+        createdById: res.createdById,
+      };
+  
+      return transformedData.quillContent;
     }),
 });
