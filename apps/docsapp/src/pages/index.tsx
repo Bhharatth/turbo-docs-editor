@@ -22,7 +22,9 @@ export default function Home() {
     router.push(`/editor/${docId}`)
 
   }
-
+  
+  
+  
 
   const getDocs = api.post.getQuillDocs.useQuery();
   console.log(getDocs.data);

@@ -50,6 +50,19 @@ export const docValidationSchema = z.object({
   createdById: z.string(),
 });
 
+export const updateDocValidationSchema = z.object({
+  docId: z.string(),
+  updatedData: z.object({
+    name: z.string().optional(), // Optional if you want to update the name
+    quillContent: z.array(insertSchema).optional(), // Optional if you want to update quillContent
+    // Add other fields you want to update
+  }),
+});
+
+export const deleteDocValidationSchema = z.object({
+  docId: z.string()
+})
+
 
 export type ILogin = z.infer<typeof loginSchema>;
 export type IUpdateUser = z.infer<typeof updateUserSchema>;
