@@ -1,14 +1,19 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import Quill from "quill";
+import {Quill } from "quill";
 import {  api } from "@/utils/api";
 import "quill/dist/quill.snow.css";
 import { appendFile } from 'fs';
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from 'next/router';
 import { NextPage } from "next";
-import { number } from 'zod';
+import { any, number } from 'zod';
 import { doc } from 'prettier';
-import {docValidationSchema} from '@/common/authSchema'
+import {docValidationSchema} from '@/common/authSchema';
+
+type Docstype = {
+  insert: any;
+  attributes: any;
+}[]
 
 
 const TOOLBAR_OPTIONS = [
@@ -27,23 +32,22 @@ const Texteditor:NextPage=():JSX.Element=>  {
 
   const router = useRouter();
   const {docsId} = router.query;
- const formatedDocId: string = typeof docsId === 'string' ? docsId : ''
+ const formatedDocId: string = typeof docsId === 'string' ? docsId : '';
 
-//  const docId = currentDocId typeof number;
 
-    const session = useSession();
-    const userId = session.data?.user.id
-    // console.log(userId)
+
+
+const session = useSession();
+const userId = session.data?.user.id
 
   const [quill, setQuill] = useState<Quill | null>(null);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const [currentQuill, setCurrentQuill] = useState<Quill | null>(null);
   const [singleDoc, setSingleDoc] = useState<typeof docValidationSchema | null>(null);
+  const [fetchedData, setFetchedData] = useState<Docstype | null>(null);
 
 
-
-
-  
+ 
 
   
 
@@ -75,10 +79,9 @@ const createDocs = api.post.saveQuillDocs.useMutation({
           theme: 'snow',
           modules: { toolbar: TOOLBAR_OPTIONS },
         });
-       
+
         q.on('text-change',(delta, oldDelta, source)=>{
             if(source === 'user'){
-                // console.log(delta)
             }
         })
         setQuill(q);
@@ -86,7 +89,6 @@ const createDocs = api.post.saveQuillDocs.useMutation({
     });
   }, []);
 
-  //   console.log(delta1)
 
   // const fetchDoc = api.post.getSingleQuillDoc.useQuery();
   // useEffect(() => {
@@ -138,11 +140,28 @@ const createDocs = api.post.saveQuillDocs.useMutation({
   const { data: docs, refetch: refetchDocs } = api.post.getSingleQuillDoc.useQuery({
     docId: formatedDocId,
   });
-  // console.log(docId)
-  console.log(formatedDocId)
-  
 
-//   console.log(quill)
+
+  useEffect(() => {
+    if (docs) {
+      setFetchedData(docs);
+    }
+  }, [docs]);
+  console.log(fetchedData)
+
+
+  useEffect(()=> {
+    // if(quill && fetchedData){
+    //   const quillContent = fetchedData[0].map((item:any)=> ({
+    //     insert: item.insert || '',
+    //     attributes: item.attributes || {},
+    //   }))
+    // }
+    quill?.setContents(fetchedData)
+  }
+  ),[quill, fetchedData]
+
+
 
   return (
     <div className='relative'>

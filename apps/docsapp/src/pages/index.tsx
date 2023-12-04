@@ -19,7 +19,7 @@ export default function Home() {
 
   const handleEditDoc =(docId: number):void=> {
     console.log("from handle edit doc",docId)
-    // router.push(`/editor/${docId}`)
+    router.push(`/editor/${docId}`)
 
   }
 

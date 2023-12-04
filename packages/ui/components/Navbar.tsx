@@ -59,7 +59,8 @@ const Navbar=()=> {
         <CgMenuGridO className="text-blue-500" />
       </div>
       <div className="m-2 p-2 rounded-full bg-white shadow-md">
-        <CgProfile className="text-black bg-blue-300 p-2 rounded-full" ></CgProfile>
+        <CgProfile className="text-black bg-blue-300 p-2 rounded-full" >b</CgProfile>
+        
       </div>
     </div>
         </div>

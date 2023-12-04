@@ -4,7 +4,7 @@ import {
   publicProcedure,
 } from "@/server/api/trpc";
 import { json } from "stream/consumers";
-import { docValidationSchema } from "@/common/authSchema";
+import { docValidationSchema, insertSchema } from "@/common/authSchema";
 import { Session } from "inspector";
 import { contextProps } from "@trpc/react-query/shared";
 import Email from "next-auth/providers/email";
@@ -88,7 +88,7 @@ export const postRouter = createTRPCRouter({
 
       const transformedData = {
         name: res.name,
-        quillContent: res.quillContent.map((item) => ({
+        quillContent: res.quillContent.map((item: any) => ({
           insert: item.insert,
           attributes: item.attributes,
         })),
@@ -97,4 +97,7 @@ export const postRouter = createTRPCRouter({
   
       return transformedData.quillContent;
     }),
+   
+   
+   
 });

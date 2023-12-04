@@ -37,10 +37,12 @@ const attributeSchema = z.object({
   clean: z.boolean().optional(),
 });
 
-const insertSchema = z.object({
+ export const insertSchema = z.object({
   attributes: attributeSchema.optional(),
   insert: z.string(),
 });
+
+export type InsertType = z.infer<typeof insertSchema>;
 
 export const docValidationSchema = z.object({
   name: z.string(),
