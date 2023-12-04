@@ -60,7 +60,7 @@ export const updateDocValidationSchema = z.object({
 });
 
 export const deleteDocValidationSchema = z.object({
-  docId: z.string()
+  docId: z.string(),
 })
 
 

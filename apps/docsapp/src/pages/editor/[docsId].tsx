@@ -34,12 +34,14 @@ const Texteditor: NextPage = (): JSX.Element => {
   const router = useRouter();
   const { docsId } = router.query;
   const formatedDocId: string = typeof docsId === 'string' ? docsId : '';
+  console.log(formatedDocId)
 
 
 
 
   const session = useSession();
-  const userId = session.data?.user.id
+  const userId = session.data?.user.id;
+  console.log(userId)
 
   const [quill, setQuill] = useState<Quill | null>(null);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
@@ -55,10 +57,10 @@ const Texteditor: NextPage = (): JSX.Element => {
 
 
 
-
   const createDocs = api.post.saveQuillDocs.useMutation({
     onSuccess: (res) => {
-      console.log("doc created successfully", res)
+      console.log("doc created successfully", res);
+      router.push(`/editor/${res.id}`)
     },
     onError: (error) => {
       alert(error);
@@ -66,15 +68,24 @@ const Texteditor: NextPage = (): JSX.Element => {
     }
   });
 
+
   const updateDocs = api.post.updateQuillDoc.useMutation({
     onSuccess: (res) => {
       console.log("doc updated successfully", res);
+      const refetchNewDoc = api.post.getSingleQuillDoc.useQuery({
+         docId: res.id.toString()
+      });
+    
      refetchDocs();
     },
     onError: (error) => {
       alert(error);
       console.log(error)
     }
+  });
+
+  const deleteDocs = api.post.deleteQuillDoc.useMutation({
+
   })
 
 
@@ -112,14 +123,15 @@ const Texteditor: NextPage = (): JSX.Element => {
 
 
 
-  const handleSave = async () => {
+  const handleSave = async (e:any) => {
+    e.preventDefault();
     const delta = quill?.getContents();
     if (!delta) {
       console.error('Quill content is empty');
       return;
     }
     const res = await createDocs.mutate({
-      name: "new docs",
+      name: "new docs1",
       quillContent: delta.ops.map((item) => ({
         insert: typeof item.insert === 'string' ? item.insert : '',
         attributes: item.attributes || {},
@@ -156,7 +168,14 @@ const Texteditor: NextPage = (): JSX.Element => {
     refetchDocs();
   }
 
-
+  const docIdToDelete = "8";
+  try {
+    const response = api.post.deleteQuillDoc.useMutation({
+      docsId: "8"
+    });
+  } catch (error) {
+    console.error("Error deleting document:", error);
+  }
 
   // useEffect(() => {
   //   if (docId !== 'new' && quill) {

@@ -21,9 +21,19 @@ export default function Home() {
     console.log("from handle edit doc",docId)
     router.push(`/editor/${docId}`)
 
+  };
+
+  const {mutate: deleteDocs, isLoading: deletingDoc} = api.post.deleteQuillDoc.useMutation({
+    onSuccess: async()=> {
+      console.log("doc deleted successfully")
+    }
+  });
+
+  function deleteDocument(docId: string){
+    deleteDocs({
+      docsId: docId
+    })
   }
-  
-  
   
 
   const getDocs = api.post.getQuillDocs.useQuery();
@@ -31,6 +41,7 @@ export default function Home() {
 
   return (
     <div className="lg:max-h-screen flex flex-wrap">
+      
       <div className="flex flex-row bg-grey border border-solid border-gray-300 rounded cursor-pointer overflow-hidden relative mt-5 mx-5 mb-10 p-4 w-1/6 h-100%">
         <div className="flex mt-n4 overflow-hidden pt-4 whitespace-nowrap w-25% h-90% align-middle justify-center" onClick={handleCreateNewDoc}>
           <img className="bg-yellow-50" src="https://ssl.gstatic.com/docs/templates/thumbnails/docs-blank-googlecolors.png" alt="add doc" />
@@ -40,7 +51,7 @@ export default function Home() {
       {/* Map over the items array */}
       {getDocs.data?.map((item) => (
        
-        <FileICon id={item.id} fileId={item.id} createdAt={item.createdAt}  fileName={item.name} onEditClick={() => handleEditDoc(item.id)}/>
+        <FileICon key={item.id} id={item.id} fileId={item.id} createdAt={item.createdAt}  fileName={item.name} onEditClick={() => handleEditDoc(item.id)}/>
       ))}
     </div>
   );
