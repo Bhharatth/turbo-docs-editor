@@ -3,6 +3,7 @@ import { Quill } from "quill";
 import { api } from "@/utils/api";
 import "quill/dist/quill.snow.css";
 import { appendFile } from 'fs';
+import {useRecoilState}  from 'recoil'
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from 'next/router';
 import { NextPage } from "next";
@@ -10,6 +11,7 @@ import { any, number } from 'zod';
 import { doc } from 'prettier';
 import { docValidationSchema } from '@/common/authSchema';
 import { error } from 'console';
+import { DeleteButtonState, EditButtonState, deleteButtonState, editButtonState } from '@gdocs/recoilstore';
 
 type Docstype = {
   insert: any;
@@ -31,10 +33,35 @@ const TOOLBAR_OPTIONS = [
 
 const Texteditor: NextPage = (): JSX.Element => {
 
+  const [editButtonClicked, setEditButtonClicked] = useRecoilState(editButtonState);
+  const [deleteButtonStateData, setDeleteButtonState]  = useRecoilState(deleteButtonState)
+  
+  const handleDeleteButtonClick =()=> {
+   setDeleteButtonState((prevState: DeleteButtonState)=> ({
+     ...prevState,
+     clicked: true,
+     data: null
+   }));
+ };
+ 
+  const resetEditButtonState =()=> {
+   setEditButtonClicked((prevState: EditButtonState)=> ({
+     ...prevState,
+     clicked: false, // Setting it to false as it seems to be a reset
+     data: null
+   }));
+ };
+
+ useEffect(()=> {
+  handleDeleteButtonClick();
+  resetEditButtonState();
+
+ },[])
+
+
   const router = useRouter();
   const { docsId } = router.query;
   const formatedDocId: string = typeof docsId === 'string' ? docsId : '';
-  console.log(formatedDocId)
 
 
 
@@ -84,9 +111,9 @@ const Texteditor: NextPage = (): JSX.Element => {
     }
   });
 
-  const deleteDocs = api.post.deleteQuillDoc.useMutation({
+  // const deleteDocs = api.post.deleteQuillDoc.useMutation({
 
-  })
+  // })
 
 
   useEffect(() => {

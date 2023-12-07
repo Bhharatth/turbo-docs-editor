@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import * as React from 'react';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import {
   HamburgerMenuIcon,
@@ -6,25 +7,26 @@ import {
   CheckIcon,
   ChevronRightIcon,
 } from '@radix-ui/react-icons';
-import { deleteButtonState, editButtonState } from '@gdocs/recoilstore';
+import { DeleteButtonState, EditButtonState, deleteButtonState, editButtonState } from '@gdocs/recoilstore';
 import { useRecoilState } from 'recoil';
+import { roundToNearestMinutes } from 'date-fns';
 
 type MenuProps = {
   fileId: number;
 };
 
 const DropdownMenuDemo: React.FC<MenuProps> = ({ fileId }) => {
-  const [bookmarksChecked, setBookmarksChecked] = React.useState(true);
-  const [urlsChecked, setUrlsChecked] = React.useState(false);
-  const [person, setPerson] = React.useState('pedro');
+  const [bookmarksChecked, setBookmarksChecked] = useState(true);
+  const [urlsChecked, setUrlsChecked] = useState(false);
+  const [person, setPerson] = useState('pedro');
 
   const [editButtonClicked, setEditButtonClicked] = useRecoilState(editButtonState);
   const [deleteButtonStateData, setDeleteButtonState]  = useRecoilState(deleteButtonState)
 
   // const [editClicked, seteditClicked] = 
 
-  const handleButtonClick =(fileId)=> {
-    setDeleteButtonState((prevState: deleteButtonState)=> ({
+  const handleDeleteButtonClick =(fileId)=> {
+    setDeleteButtonState((prevState:  DeleteButtonState)=> ({
       ...prevState,
       clicked: true,
       data: fileId
@@ -32,12 +34,13 @@ const DropdownMenuDemo: React.FC<MenuProps> = ({ fileId }) => {
   };
 
   const handleEditButtonClick =(fileId)=> {
-    setEditButtonClicked((prevState: editButtonState)=> ({
+    setEditButtonClicked((prevState: EditButtonState)=> ({
       ...prevState,
       clicked: true,
       data: fileId
     }))
   }
+
 
   return (
     <DropdownMenu.Root>
@@ -64,7 +67,7 @@ const DropdownMenuDemo: React.FC<MenuProps> = ({ fileId }) => {
           </div>
         </DropdownMenu.Item>
         <DropdownMenu.Item className="group text-[16px] leading-none text-green rounded-[3px] flex items-center h-[25px] px-[5px] relative pl-[25px] select-none outline-none data-[highlighted]:bg-violet9 data-[highlighted]:text-violet1"
-        onClick={()=> handleButtonClick (fileId)}>
+        onClick={()=> handleDeleteButtonClick (fileId)}>
           Delete{' '}
           <div className="ml-auto pl-[20px] text-mauve11 group-data-[highlighted]:text-white">
             ⌘+N <span className="rounded-full h-2 w-2 inline-block bg-red-500 ml-1" />

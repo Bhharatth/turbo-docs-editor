@@ -6,29 +6,52 @@ import { MdOutlineDelete } from "react-icons/md";
 import { api } from "@/utils/api";
 import FileICon from "@gdocs/ui/components/plugins/fileIcon";
 import { useRouter } from 'next/router';
-import { deleteButtonState, editButtonState } from "@gdocs/recoilstore";
-import { useRecoilValue } from "recoil";
+import { DeleteButtonState, EditButtonState, deleteButtonState, editButtonState } from "@gdocs/recoilstore";
+import { useRecoilValue, useRecoilState } from "recoil";
+import { useEffect } from "react";
+import { Field } from "@radix-ui/react-form";
 // import { FileIcon } from "@radix-ui/react-icons";
-
 export default function Home() {
 
- const editButtonId = useRecoilValue(editButtonState);
- const deleteButtonId = useRecoilValue(deleteButtonState);
+ const editButtonId = useRecoilValue(editButtonState) || "";
+ const deleteButtonId = useRecoilValue(deleteButtonState) || "";
+ console.log("edit",editButtonId.clicked)
+ console.log("delete",deleteButtonId.clicked);
+ const router = useRouter();
 
+
+
+
+const handleOperationClicked =()=> {
+  if(editButtonId.clicked && editButtonId.data !== null){
+    router.push(`/editor/${editButtonId.data}`)
+  }
+  // resetEditButtonState();
+};
+
+
+ useEffect(() => {
+  handleOperationClicked()
 
  
-  const router = useRouter();
+  
+
+
+
+}, [editButtonId.clicked, deleteButtonId.clicked]);
+
+
+
+  
+
+
 
   const handleCreateNewDoc = ()=> {
     router.push("/editor/new")
 
   };
 
-  const handleEditDoc =(docId: number):void=> {
-    console.log("from handle edit doc",docId)
-    router.push(`/editor/${docId}`)
-
-  };
+ 
 
   const {mutate: deleteDocs, isLoading: deletingDoc} = api.post.deleteQuillDoc.useMutation({
     onSuccess: async()=> {
@@ -51,14 +74,15 @@ export default function Home() {
       
       <div className="flex flex-row bg-grey border border-solid border-gray-300 rounded cursor-pointer overflow-hidden relative mt-5 mx-5 mb-10 p-4 w-1/6 h-100%">
         <div className="flex mt-n4 overflow-hidden pt-4 whitespace-nowrap w-25% h-90% align-middle justify-center" >
-          <img className="bg-yellow-50" src="https://ssl.gstatic.com/docs/templates/thumbnails/docs-blank-googlecolors.png" alt="add doc" />
+          <img className="bg-yellow-50" src="https://ssl.gstatic.com/docs/templates/thumbnails/docs-blank-googlecolors.png" alt="add doc" onClick={handleCreateNewDoc}/>
         </div>
       </div>
 
       {/* Map over the items array */}
       {getDocs.data?.map((item) => (
        
-        <FileICon key={item.id} id={item.id} fileId={item.id} createdAt={item.createdAt}  fileName={item.name} />
+        <FileICon key={item.id} id={item.id} fileId={item.id} createdAt={item.createdAt}  fileName={item.name} 
+        />
       ))}
     </div>
   );
