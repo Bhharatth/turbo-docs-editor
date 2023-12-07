@@ -37,7 +37,8 @@
     "react-toast-notifications": "^2.5.1",
     "react-toastify": "^9.1.3",
     "superjson": "^2.2.1",
-    "ui": "*",
+    "@gdocs/ui": "*",
+    "@gdocs/recoilstore": "*",
     "zod": "^3.22.4"
   },
   "devDependencies": {

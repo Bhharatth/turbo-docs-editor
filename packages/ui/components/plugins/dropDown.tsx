@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import {
   HamburgerMenuIcon,
@@ -6,11 +6,38 @@ import {
   CheckIcon,
   ChevronRightIcon,
 } from '@radix-ui/react-icons';
+import { deleteButtonState, editButtonState } from '@gdocs/recoilstore';
+import { useRecoilState } from 'recoil';
 
-const DropdownMenuDemo = () => {
+type MenuProps = {
+  fileId: number;
+};
+
+const DropdownMenuDemo: React.FC<MenuProps> = ({ fileId }) => {
   const [bookmarksChecked, setBookmarksChecked] = React.useState(true);
   const [urlsChecked, setUrlsChecked] = React.useState(false);
   const [person, setPerson] = React.useState('pedro');
+
+  const [editButtonClicked, setEditButtonClicked] = useRecoilState(editButtonState);
+  const [deleteButtonStateData, setDeleteButtonState]  = useRecoilState(deleteButtonState)
+
+  // const [editClicked, seteditClicked] = 
+
+  const handleButtonClick =(fileId)=> {
+    setDeleteButtonState((prevState: deleteButtonState)=> ({
+      ...prevState,
+      clicked: true,
+      data: fileId
+    }))
+  };
+
+  const handleEditButtonClick =(fileId)=> {
+    setEditButtonClicked((prevState: editButtonState)=> ({
+      ...prevState,
+      clicked: true,
+      data: fileId
+    }))
+  }
 
   return (
     <DropdownMenu.Root>
@@ -27,14 +54,17 @@ const DropdownMenuDemo = () => {
       <DropdownMenu.Content
         className="min-w-[220px] bg-white rounded-md p-[5px] shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),_0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)] will-change-[opacity,transform] data-[side=top]:animate-slideDownAndFade data-[side=right]:animate-slideLeftAndFade data-[side=bottom]:animate-slideUpAndFade data-[side=left]:animate-slideRightAndFade"
         sideOffset={5}
+        
       >
-        <DropdownMenu.Item className="group text-[16px] leading-none text-violet11 rounded-[3px] flex items-center h-[25px] px-[5px] relative pl-[25px] select-none outline-none data-[highlighted]:bg-violet9 data-[highlighted]:text-violet1">
+        <DropdownMenu.Item className="group text-[16px] leading-none text-violet11 rounded-[3px] flex items-center h-[25px] px-[5px] relative pl-[25px] select-none outline-none data-[highlighted]:bg-violet9 data-[highlighted]:text-violet1" 
+        onClick={()=> handleEditButtonClick(fileId)}>
           Edit{' '}
           <div className="ml-auto pl-[20px] text-mauve11 group-data-[highlighted]:text-white">
             ⌘+T <span className="rounded-full h-2 w-2 inline-block bg-green-500 ml-1" />
           </div>
         </DropdownMenu.Item>
-        <DropdownMenu.Item className="group text-[16px] leading-none text-green rounded-[3px] flex items-center h-[25px] px-[5px] relative pl-[25px] select-none outline-none data-[highlighted]:bg-violet9 data-[highlighted]:text-violet1">
+        <DropdownMenu.Item className="group text-[16px] leading-none text-green rounded-[3px] flex items-center h-[25px] px-[5px] relative pl-[25px] select-none outline-none data-[highlighted]:bg-violet9 data-[highlighted]:text-violet1"
+        onClick={()=> handleButtonClick (fileId)}>
           Delete{' '}
           <div className="ml-auto pl-[20px] text-mauve11 group-data-[highlighted]:text-white">
             ⌘+N <span className="rounded-full h-2 w-2 inline-block bg-red-500 ml-1" />

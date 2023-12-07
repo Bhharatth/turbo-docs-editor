@@ -169,12 +169,16 @@ const Texteditor: NextPage = (): JSX.Element => {
   }
 
   const docIdToDelete = "8";
-  try {
-    const response = api.post.deleteQuillDoc.useMutation({
-      docsId: "8"
-    });
-  } catch (error) {
-    console.error("Error deleting document:", error);
+
+  async function deleteDoc(docsId: string){
+    try {
+      const response = await api.post.deleteQuillDoc.useMutation({
+        docsId: docIdToDelete,
+      });
+      
+    } catch (error) {
+      console.error("Error deleting document:", error);
+    }
   }
 
   // useEffect(() => {

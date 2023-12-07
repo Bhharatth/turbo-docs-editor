@@ -1,12 +1,15 @@
 import React from 'react';
 import { LiaFileSolid } from "react-icons/lia";
-import AlertDialogDemo from 'ui/components/plugins/alertDemo';
+// import AlertDialogDemo from 'ui/components/plugins/alertDemo';
 import { PassThrough } from 'stream';
-import ToastDemo from 'ui/components/plugins/toastDemo';
+// import ToastDemo from 'ui/components/plugins/toastDemo';
 import { MdOutlineDelete } from "react-icons/md";
 import { FiMoreVertical } from "react-icons/fi";
 import DropdownMenuDemo from './dropDown';
 import { format } from 'date-fns';
+import { useRecoilState } from 'recoil';
+import { deleteButtonState, editButtonState } from '@gdocs/recoilstore';
+// import { editButtonState, deleteButtonState } from '../../../recoil'
 
 
 type fileProps = {
@@ -15,10 +18,13 @@ type fileProps = {
     createdAt: Date,
     fileName: string,
     onEditClick: (fileId: number)=> void;
+    onDeleteClick: (fileId: number)=> void;
   };
 
   
-const FileICon: React.FC<fileProps> =({ fileId, createdAt, fileName, onEditClick })=> {
+const FileICon: React.FC<fileProps> =({ fileId, createdAt, fileName, onEditClick,onDeleteClick })=> {
+
+
 
   //  const handleDeleteClick = (id: string) => {
   //       alert(id);
@@ -40,10 +46,10 @@ const FileICon: React.FC<fileProps> =({ fileId, createdAt, fileName, onEditClick
 
         <div className="hidden sm:flex flex-row mt-2">
           <button className="text-red11   text-black hover:bg-red5 focus:shadow-red7 inline-flex h-[30px] items-center justify-center rounded-[4px] px-[10px] font-medium leading-none outline-none focus:shadow-[0_0_0_2px mb-3"
-          onClick={()=> onEditClick(fileId)}>
+          >
           {/* <MdOutlineDelete /> */}
           <FiMoreVertical />
-          <DropdownMenuDemo/>
+          <DropdownMenuDemo fileId={fileId}/>
           </button>
         </div>
       </div>

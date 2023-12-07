@@ -1,13 +1,13 @@
 import React from 'react';
 import { LiaFileSolid } from "react-icons/lia";
-import AlertDialogDemo from 'ui/components/plugins/alertDemo';
+// import AlertDialogDemo from 'ui/components/plugins/alertDemo';
 import { PassThrough } from 'stream';
-import ToastDemo from 'ui/components/plugins/toastDemo';
+// import ToastDemo from 'ui/components/plugins/toastDemo';
 import { MdOutlineDelete } from "react-icons/md";
 import { FiMoreVertical } from "react-icons/fi";
 // import DropdownMenuDemo from '';
 import { format } from 'date-fns';
-import DropdownMenuDemo from 'ui/components/plugins/dropDown';
+import DropdownMenuDemo from '@gdocs/ui/components/plugins/dropDown';
 
 
 type fileProps = {
@@ -44,7 +44,7 @@ const FileICon: React.FC<fileProps> =({ fileId, createdAt, fileName, onEditClick
           onClick={()=> onEditClick(fileId)}>
           {/* <MdOutlineDelete /> */}
           <FiMoreVertical />
-          <DropdownMenuDemo/>
+          <DropdownMenuDemo fileId={8}/>
           </button>
         </div>
       </div>

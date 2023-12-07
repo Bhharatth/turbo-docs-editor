@@ -8,7 +8,7 @@ await import("./src/env.js");
 const config = {
   reactStrictMode: true,
   cssModules: true,
-  transpilePackages: ["ui","db"],
+  transpilePackages: ["@gdocs/ui","@gdocs/db","@gdocs/recoilstore"],
 
   /**
    * If you are using `appDir` then you must comment the below `i18n` config out.
