@@ -9,13 +9,18 @@ import { CgProfile } from "react-icons/cg";
 import { FaShare } from "react-icons/fa";
 import MenubarDemo from "./Menubar";
 import { useRouter } from 'next/router';
+import { useRecoilState, useRecoilValue } from "recoil";
+import { newTabButtonState, savehandlerState } from "@gdocs/recoilstore";
+import { previousDay } from "date-fns";
+import DialogBox from "./plugins/dialogBox";
 
 const Navbar=()=> {
     const router = useRouter();
+  
 
     const isLoginPage = router.pathname === '/loginpage';
     const isSignUpPage = router.pathname === '/signuppage';
-
+    const [saveState, setSaveState] = useRecoilState(savehandlerState);
     if(isLoginPage || isSignUpPage){
         return null;
     };
@@ -23,11 +28,12 @@ const Navbar=()=> {
     return (
         
         <div className="flex flex-row justify-between items-center w-full h-30 bg-gray-100 box-border z-20">
+                {saveState.clicked && <DialogBox/>}
         <div className="flex flex-row justify-between align-center">
                 {/* <div className=" rounded-full p-2 shadow-md ml-10">
                     <BiAlignJustify className="text-xl mt-auto " />
                 </div> */}
-                <MenubarDemo />
+               <MenubarDemo/>
             </div>
             <div className="flex flex-row">
     <div className="hidden md:block"> 

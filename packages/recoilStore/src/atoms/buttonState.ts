@@ -26,4 +26,35 @@ export const deleteButtonState = atom<DeleteButtonState>({
         clicked: false,
         data: null, 
       },
+});
+
+export const saveButtonState = atom({
+    key: 'saveButtonAtom',
+    default: {
+        isSaving: false,
+        saveError: null,
+    }
+});
+
+
+export type NewTabButtonState ={
+    clicked: boolean;
+    newTab:any;
+}
+
+export const newTabButtonState = atom<NewTabButtonState>({
+    key: 'newTabButtonAtom',
+    default: {
+        clicked: false,
+        newTab: null
+    }
+});
+
+export const savehandlerState = atom({
+    key: 'saveHandlerAtom',
+    default: {
+        clicked: false,
+        docName: null,
+        saveDoc: false
+    }
 })

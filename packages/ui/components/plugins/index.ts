@@ -1,4 +1,5 @@
 export * from './alertDemo';
 export * from './toastDemo';
 export * from './fileIcon';
-export * from './alertDemo'
+export * from './alertDemo';
+export * from './dialogBox';

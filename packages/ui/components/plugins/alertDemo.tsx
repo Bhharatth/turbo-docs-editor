@@ -1,5 +1,5 @@
-'use client'
-import React, { useRef, useState } from 'react';
+import * as React from 'react';
+import { useRef, useState } from 'react';
 import * as AlertDialog from '@radix-ui/react-alert-dialog';
 
 const AlertDialogDemo = ({onClick,id,children}: any) => {

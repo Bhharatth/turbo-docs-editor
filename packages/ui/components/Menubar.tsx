@@ -1,6 +1,10 @@
-import React from 'react';
+import * as React from 'react';
 import * as Menubar from '@radix-ui/react-menubar';
 import { CheckIcon, ChevronRightIcon, DotFilledIcon } from '@radix-ui/react-icons';
+import { useRecoilState} from 'recoil';
+import { Newbutton } from './clickButton';
+import { DeleteButtonState, EditButtonState, deleteButtonState, editButtonState ,newTabButtonState, savehandlerState } from '@gdocs/recoilstore';
+import DialogBox from "@gdocs/ui/components/plugins/dialogBox";
 
 
 const RADIO_ITEMS = ['Andy', 'Benoît', 'Luis'];
@@ -10,6 +14,32 @@ const MenubarDemo = () => {
   const [checkedSelection, setCheckedSelection] = React.useState([CHECK_ITEMS[1]]);
   const [radioSelection, setRadioSelection] = React.useState(RADIO_ITEMS[2]);
 
+  const [newTab, setNewTab] = useRecoilState(newTabButtonState);
+  const [saveState, setSaveState] = useRecoilState(savehandlerState);
+
+  const handleSave=()=>{
+    setSaveState({
+      clicked: true,
+      docName: null,
+      saveDoc: true,
+    });
+   
+  };
+
+  React.useEffect(()=> {
+    console.log("save state",saveState)
+  },[saveState])
+
+  const handleNewTab=()=> {
+    console.log('hi from new tab 1')
+    setNewTab({
+      clicked: true,
+      newTab: true
+    })
+    console.log('hi from new tab 2')
+  }
+
+ 
   return (
     <Menubar.Root className="flex p-[3px] rounded-md z-10">
       <Menubar.Menu>
@@ -23,23 +53,27 @@ const MenubarDemo = () => {
             sideOffset={5}
             alignOffset={-3}
           >
-            <Menubar.Item className="group text-[13px] leading-none text-violet11 rounded flex items-center h-[25px] px-[10px] relative select-none outline-none data-[state=open]:bg-violet4 data-[state=open]:text-violet11 data-[highlighted]:bg-gradient-to-br data-[highlighted]:from-violet9 data-[highlighted]:to-violet10 data-[highlighted]:text-violet1 data-[highlighted]:data-[state=open]:text-violet1 data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none">
+            <Menubar.Item className="group text-[13px] leading-none text-violet11 rounded flex items-center h-[25px] px-[10px] relative select-none outline-none data-[state=open]:bg-violet4 data-[state=open]:text-violet11 data-[highlighted]:bg-gradient-to-br data-[highlighted]:from-violet9 data-[highlighted]:to-violet10 data-[highlighted]:text-violet1 data-[highlighted]:data-[state=open]:text-violet1 data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none"
+           onClick={handleNewTab} >
               New Tab{' '}
-              <div className="ml-auto pl-5 text-mauve9 group-data-[highlighted]:text-white group-data-[disabled]:text-mauve8">
+              <div className="ml-auto pl-5 text-mauve9 group-data-[highlighted]:text-white group-data-[disabled]:text-mauve8"  onClick={handleNewTab}>
                 ⌘ T
               </div>
             </Menubar.Item>
-            <Menubar.Item className="group text-[13px] leading-none text-violet11 rounded flex items-center h-[25px] px-[10px] relative select-none outline-none data-[state=open]:bg-violet4 data-[state=open]:text-violet11 data-[highlighted]:bg-gradient-to-br data-[highlighted]:from-violet9 data-[highlighted]:to-violet10 data-[highlighted]:text-violet1 data-[highlighted]:data-[state=open]:text-violet1 data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none">
-              New Window{' '}
+            <Menubar.Item className="group text-[13px] leading-none text-violet11 rounded flex items-center h-[25px] px-[10px] relative select-none outline-none data-[state=open]:bg-violet4 data-[state=open]:text-violet11 data-[highlighted]:bg-gradient-to-br data-[highlighted]:from-violet9 data-[highlighted]:to-violet10 data-[highlighted]:text-violet1 data-[highlighted]:data-[state=open]:text-violet1 data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none"
+            onClick={handleSave}>
+              Save Document{' '}
               <div className="ml-auto pl-5 text-mauve9 group-data-[highlighted]:text-white group-data-[disabled]:text-mauve8">
                 ⌘ N
               </div>
             </Menubar.Item>
+           
             <Menubar.Item
               className="text-[13px] leading-none text-violet11 rounded flex items-center h-[25px] px-[10px] relative select-none outline-none data-[state=open]:bg-violet4 data-[state=open]:text-violet11 data-[highlighted]:bg-gradient-to-br data-[highlighted]:from-violet9 data-[highlighted]:to-violet10 data-[highlighted]:text-violet1 data-[highlighted]:data-[state=open]:text-violet1 data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none"
-              disabled
+            
             >
-              New Incognito Window
+             <DialogBox/>
+              
             </Menubar.Item>
             <Menubar.Separator className="h-[1px] bg-violet6 m-[5px]" />
             <Menubar.Sub>
@@ -68,7 +102,8 @@ const MenubarDemo = () => {
             </Menubar.Sub>
             <Menubar.Separator className="h-[1px] bg-violet6 m-[5px]" />
             <Menubar.Item className="group text-[13px] leading-none text-violet11 rounded flex items-center h-[25px] px-[10px] relative select-none outline-none data-[highlighted]:bg-gradient-to-br data-[highlighted]:from-violet9 data-[highlighted]:to-violet10 data-[highlighted]:text-violet1 data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none">
-              Print…{' '}
+            <DialogBox/>
+              
               <div className="ml-auto pl-5 text-mauve9 group-data-[highlighted]:text-white group-data-[disabled]:text-mauve8">
                 ⌘ P
               </div>
