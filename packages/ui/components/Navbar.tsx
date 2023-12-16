@@ -27,7 +27,7 @@ const Navbar=()=> {
 
     return (
         
-        <div className="flex flex-row justify-between items-center w-full h-30 bg-gray-100 box-border z-20">
+        <div className="flex flex-row justify-between items-center w-full h-30 bg-gray-100 box-border z-4">
                 {saveState.clicked && <DialogBox/>}
         <div className="flex flex-row justify-between align-center">
                 {/* <div className=" rounded-full p-2 shadow-md ml-10">

@@ -49,6 +49,22 @@ export const newTabButtonState = atom<NewTabButtonState>({
         newTab: null
     }
 });
+export type SaveButtonState ={
+    clicked: boolean;
+}
+
+export const saveHandlerButtonState = atom<SaveButtonState>({
+    key: 'saveButtonAtom',
+    default: {
+        clicked: false,
+    }
+});
+export const updateHandlerButtonState = atom<SaveButtonState>({
+    key: 'updateButtonAtom',
+    default: {
+        clicked: false,
+    }
+});
 
 export const savehandlerState = atom({
     key: 'saveHandlerAtom',

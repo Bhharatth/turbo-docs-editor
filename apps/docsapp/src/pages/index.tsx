@@ -50,7 +50,6 @@ const handleOperationClicked =()=> {
 
 useEffect(()=> {
   if(saveState.saveDoc){
-
     handleCreateNewDoc();
   }
 

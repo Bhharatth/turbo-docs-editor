@@ -7,14 +7,8 @@ import {useRecoilState}  from 'recoil'
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from 'next/router';
 import { NextPage } from "next";
-import { any, number } from 'zod';
-import { doc } from 'prettier';
 import { docValidationSchema } from '@/common/authSchema';
-import { error } from 'console';
-import { DeleteButtonState, EditButtonState, deleteButtonState, editButtonState, newTabButtonState, savehandlerState } from '@gdocs/recoilstore';
-import AlertDialogDemo from '@gdocs/ui/components/plugins/alertDemo';
-import DialogBox from '@/components/dialog';
-import PreviousMap from 'postcss/lib/previous-map';
+import { DeleteButtonState, EditButtonState, deleteButtonState, editButtonState, newTabButtonState, saveHandlerButtonState, savehandlerState, updateHandlerButtonState } from '@gdocs/recoilstore';
 
 type Docstype = {
   insert: any;
@@ -37,7 +31,9 @@ const TOOLBAR_OPTIONS = [
 const Texteditor: NextPage = (): JSX.Element => {
 
   const [editButtonClicked, setEditButtonClicked] = useRecoilState(editButtonState);
-  const [deleteButtonStateData, setDeleteButtonState]  = useRecoilState(deleteButtonState)
+  const [deleteButtonStateData, setDeleteButtonState]  = useRecoilState(deleteButtonState);
+  const [savehandler, setSaveHandler] = useRecoilState(saveHandlerButtonState);
+  const [updateHandler, setUpdateHandler] = useRecoilState(updateHandlerButtonState);
 
   const [newTabState, setNewTabState] = useRecoilState(newTabButtonState);
   const [saveState, setSaveState] = useRecoilState(savehandlerState);
@@ -193,35 +189,47 @@ const Texteditor: NextPage = (): JSX.Element => {
   //   }
   // }, [docId]);
 
-  const handleSave = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+  const handleSave = async (e?: React.MouseEvent<HTMLButtonElement> | any) => {
+    if (e && e.preventDefault) {
+      e.preventDefault();
+    }
+    console.log('handle save working')
     const delta = quill?.getContents();
     if(saveState.docName){
+      console.log(saveState.docName)
      
     
     if (!delta) {
       console.error('Quill content is empty');
       return;
-    }
+    };
+    console.log("quill content is not empty")
     const res = await createDocs.mutate({
-      name: "new docs1",
+      name: saveState.docName,
       quillContent: delta.ops.map((item) => ({
         insert: typeof item.insert === 'string' ? item.insert : '',
         attributes: item.attributes || {},
       })),
       createdById: userId || "",
     });
+    console.log(" success => response:",res);
   };
 }
 
   useEffect(()=> {
-   
-    
-    if (saveState.saveDoc) {
-      handleSave
-    }
+    if (savehandler.clicked) {
+      
+      handleSave();
+      console.log('clicked success, going to set as false');
 
-  },[saveState.saveDoc]);
+      setSaveHandler({
+        clicked: false
+      });
+    };
+    console.log('operation success')
+  },[savehandler.clicked]);
+
+ 
 
 
 
@@ -253,7 +261,15 @@ const Texteditor: NextPage = (): JSX.Element => {
       }
     });
     refetchDocs();
-  }
+  };
+
+  useEffect(()=> {
+    if(updateHandler.clicked){
+      handleUpdate();
+
+    }
+
+  },[updateHandler])
 
   const docIdToDelete = "8";
 
@@ -313,13 +329,13 @@ const Texteditor: NextPage = (): JSX.Element => {
   return (
     <div className='relative'>
   
-      <div className='z-1'>
+      <div className='z-0'>
 
       </div>
       <div className="container">
         <div id="editor-wrapper" ref={wrapperRef}></div>
       </div>
-      {/* <button onClick={handleSave} >save</button> */}
+       {/* <button onClick={handleSave} >save</button>  */}
       <button onClick={handleUpdate} >update doc</button>
     </div>
 

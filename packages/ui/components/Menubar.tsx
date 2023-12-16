@@ -3,7 +3,7 @@ import * as Menubar from '@radix-ui/react-menubar';
 import { CheckIcon, ChevronRightIcon, DotFilledIcon } from '@radix-ui/react-icons';
 import { useRecoilState} from 'recoil';
 import { Newbutton } from './clickButton';
-import { DeleteButtonState, EditButtonState, deleteButtonState, editButtonState ,newTabButtonState, savehandlerState } from '@gdocs/recoilstore';
+import { DeleteButtonState, EditButtonState, deleteButtonState, editButtonState ,newTabButtonState, saveHandlerButtonState, savehandlerState, updateHandlerButtonState } from '@gdocs/recoilstore';
 import DialogBox from "@gdocs/ui/components/plugins/dialogBox";
 
 
@@ -16,19 +16,27 @@ const MenubarDemo = () => {
 
   const [newTab, setNewTab] = useRecoilState(newTabButtonState);
   const [saveState, setSaveState] = useRecoilState(savehandlerState);
+  const [savehandler, setSaveHandler] = useRecoilState(saveHandlerButtonState);
+  const [updateHandler, setUpdateHander] = useRecoilState(updateHandlerButtonState)
 
   const handleSave=()=>{
-    setSaveState({
-      clicked: true,
-      docName: null,
-      saveDoc: true,
-    });
-   
+   setSaveHandler({
+    clicked: true,
+   });
+   console.log("handle save is true")
+    
+  };
+
+  const handleUpdate=()=>{
+   setUpdateHander({
+    clicked: true,
+   });
+   console.log("handle update is true")
   };
 
   React.useEffect(()=> {
-    console.log("save state",saveState)
-  },[saveState])
+    console.log("save state",savehandler)
+  },[ savehandler])
 
   const handleNewTab=()=> {
     console.log('hi from new tab 1')
@@ -41,7 +49,7 @@ const MenubarDemo = () => {
 
  
   return (
-    <Menubar.Root className="flex p-[3px] rounded-md z-10">
+    <Menubar.Root className="flex p-[3px] rounded-md z-5">
       <Menubar.Menu>
         <Menubar.Trigger className="py-2 px-3 outline-none select-none font-medium leading-none rounded text-violet11 text-[13px] flex items-center justify-between gap-[2px] data-[highlighted]:bg-violet4 data-[state=open]:bg-violet4">
           File
@@ -70,9 +78,9 @@ const MenubarDemo = () => {
            
             <Menubar.Item
               className="text-[13px] leading-none text-violet11 rounded flex items-center h-[25px] px-[10px] relative select-none outline-none data-[state=open]:bg-violet4 data-[state=open]:text-violet11 data-[highlighted]:bg-gradient-to-br data-[highlighted]:from-violet9 data-[highlighted]:to-violet10 data-[highlighted]:text-violet1 data-[highlighted]:data-[state=open]:text-violet1 data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none"
-            
+            onClick={()=> handleUpdate}
             >
-             <DialogBox/>
+             Save & Update
               
             </Menubar.Item>
             <Menubar.Separator className="h-[1px] bg-violet6 m-[5px]" />
