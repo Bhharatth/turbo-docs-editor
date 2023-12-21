@@ -2,6 +2,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { api } from "@/utils/api";
 import FileICon from "@gdocs/ui/components/plugins/fileIcon";
 import DialogBox from "@gdocs/ui/components/plugins/dialogBox";
+import DeleteDialogBox from "@gdocs/ui/components/plugins/deleteDialogBox";
 import { useRouter } from 'next/router';
 import { DeleteButtonState, EditButtonState, deleteButtonState, editButtonState, newTabButtonState, savehandlerState} from "@gdocs/recoilstore";
 import { useRecoilValue, useRecoilState } from "recoil";
@@ -11,6 +12,7 @@ export default function Home() {
  const editButtonId = useRecoilValue(editButtonState) || "";
  const deleteButtonId = useRecoilValue(deleteButtonState) || "";
  const [saveState, setSaveState] = useRecoilState(savehandlerState);
+ const [deleteButtonStateData, setDeleteButtonState]  = useRecoilState(deleteButtonState)
  const router = useRouter();
 
  const handlePopup=()=> {
@@ -71,11 +73,20 @@ useEffect(()=> {
     }
   });
 
-  function deleteDocument(docId: string){
-    deleteDocs({
-      docsId: docId
-    })
-  }
+
+
+  useEffect(()=> {
+    function deleteDocument(docId: string){
+      deleteDocs({
+        docsId: parseInt(docId)
+      })
+    }
+
+    if(deleteButtonStateData.data && deleteButtonStateData.openPopup){
+      deleteDocument(deleteButtonStateData.data)
+    }
+
+  },[deleteButtonStateData.openPopup])
   
 
   const getDocs = api.post.getQuillDocs.useQuery();
@@ -90,6 +101,8 @@ useEffect(()=> {
         </div>
       </div>
       <DialogBox/>
+      <DeleteDialogBox/>
+      
       
 
       {/* Map over the items array */}

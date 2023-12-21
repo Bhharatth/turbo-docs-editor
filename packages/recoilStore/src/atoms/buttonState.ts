@@ -17,6 +17,7 @@ export const editButtonState = atom<EditButtonState>({
 
 export type DeleteButtonState = {
     clicked: boolean;
+    openPopup: boolean;
     data: any; 
   };
 
@@ -24,6 +25,7 @@ export const deleteButtonState = atom<DeleteButtonState>({
     key: 'deleteButtonState',
     default: {
         clicked: false,
+        openPopup: false,
         data: null, 
       },
 });

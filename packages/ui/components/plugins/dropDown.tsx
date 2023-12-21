@@ -27,8 +27,9 @@ const DropdownMenuDemo: React.FC<MenuProps> = ({ fileId }) => {
 
   const handleDeleteButtonClick =(fileId)=> {
     setDeleteButtonState((prevState:  DeleteButtonState)=> ({
-      ...prevState,
+      // ...prevState,
       clicked: true,
+      openPopup: false,
       data: fileId
     }))
   };

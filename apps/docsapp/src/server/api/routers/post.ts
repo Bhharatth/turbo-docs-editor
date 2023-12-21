@@ -132,7 +132,7 @@ export const postRouter = createTRPCRouter({
       return updatedDoc;
     }),
 
-    deleteQuillDoc: publicProcedure.input(z.object({docsId: z.string()}))
+    deleteQuillDoc: publicProcedure.input(z.object({docsId: z.number()}))
     .mutation(async ({ ctx, input }) => {
 
       const userId = ctx.session?.user.id;
@@ -143,7 +143,7 @@ export const postRouter = createTRPCRouter({
 
       const deletedDoc = await ctx.db.docs.delete({
         where: {
-          id: parseInt(input.docsId),
+          id: input.docsId,
           createdById: userId,
         },
       });
