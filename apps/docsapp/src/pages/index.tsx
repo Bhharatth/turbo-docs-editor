@@ -4,7 +4,7 @@ import FileICon from "@gdocs/ui/components/plugins/fileIcon";
 import DialogBox from "@gdocs/ui/components/plugins/dialogBox";
 import DeleteDialogBox from "@gdocs/ui/components/plugins/deleteDialogBox";
 import { useRouter } from 'next/router';
-import { DeleteButtonState, EditButtonState, deleteButtonState, editButtonState, newTabButtonState, savehandlerState} from "@gdocs/recoilstore";
+import {  deleteButtonState, editButtonState, newTabButtonState, savehandlerState, userState} from "@gdocs/recoilstore";
 import { useRecoilValue, useRecoilState } from "recoil";
 import { useEffect } from "react";
 export default function Home() {
@@ -13,7 +13,12 @@ export default function Home() {
  const deleteButtonId = useRecoilValue(deleteButtonState) || "";
  const [saveState, setSaveState] = useRecoilState(savehandlerState);
  const [deleteButtonStateData, setDeleteButtonState]  = useRecoilState(deleteButtonState)
+ const [user, setUser] = useRecoilState(userState);
  const router = useRouter();
+
+ const session = useSession();
+
+//  console.log(session)
 
  const handlePopup=()=> {
   setSaveState({
@@ -22,6 +27,23 @@ export default function Home() {
     saveDoc: false,
   })
  }
+ useEffect(()=> {
+  setDeleteButtonState({
+    ...deleteButtonStateData,
+    clicked: false,
+    openPopup: false,
+  });
+
+ 
+  
+ },[]);
+ 
+ useEffect(()=> {
+  setUser({
+    user: session.data?.user.email,
+    email: session.data?.user.email
+  });
+ },[session || router]);
 
 
  useEffect(()=> {
@@ -74,7 +96,6 @@ useEffect(()=> {
   });
 
 
-
   useEffect(()=> {
     function deleteDocument(docId: string){
       deleteDocs({
@@ -82,15 +103,17 @@ useEffect(()=> {
       })
     }
 
-    if(deleteButtonStateData.data && deleteButtonStateData.openPopup){
+    if(deleteButtonStateData.data && deleteButtonStateData.openPopup ){
       deleteDocument(deleteButtonStateData.data)
     }
 
   },[deleteButtonStateData.openPopup])
   
 
-  const getDocs = api.post.getQuillDocs.useQuery();
-  // console.log(getDocs.data);
+  const {
+    data: getDocs,
+    isLoading: loadingQuillDocs,
+  } = api.post.getQuillDocs.useQuery();
 
   return (
     <div className="lg:max-h-screen flex flex-wrap">
@@ -100,13 +123,14 @@ useEffect(()=> {
           <img className="bg-yellow-50" src="https://ssl.gstatic.com/docs/templates/thumbnails/docs-blank-googlecolors.png" alt="add doc" onClick={handlePopup}/>
         </div>
       </div>
+      {deleteButtonStateData &&   <DeleteDialogBox/>}
       <DialogBox/>
-      <DeleteDialogBox/>
+    
       
       
 
       {/* Map over the items array */}
-      {getDocs.data?.map((item) => (
+      {getDocs?.map((item) => (
        
         <FileICon key={item.id} id={item.id} fileId={item.id} createdAt={item.createdAt}  fileName={item.name} 
         />
@@ -118,15 +142,6 @@ useEffect(()=> {
 
 
 
-
-// const hello = api.post.hello.useQuery({ text: "from tRPC" });
-
-
-
-// const { data: secretMessage } = api.post.getSecretMessage.useQuery(
-//   undefined, // no input
-//   { enabled: sessionData?.user !== undefined }
-// );
 
 
 

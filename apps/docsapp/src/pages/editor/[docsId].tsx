@@ -8,7 +8,7 @@ import { signOut, useSession } from "next-auth/react";
 import { useRouter } from 'next/router';
 import { NextPage } from "next";
 import { docValidationSchema } from '@/common/authSchema';
-import { DeleteButtonState, EditButtonState, deleteButtonState, editButtonState, newTabButtonState, saveHandlerButtonState, savehandlerState, updateHandlerButtonState } from '@gdocs/recoilstore';
+import { DeleteButtonState, EditButtonState, deleteButtonState, editButtonState,  newTabButtonState, saveHandlerButtonState, savehandlerState, updateHandlerButtonState } from '@gdocs/recoilstore';
 
 type Docstype = {
   insert: any;
@@ -63,7 +63,7 @@ const Texteditor: NextPage = (): JSX.Element => {
   },[saveState.clicked])
 
 
-
+  
   useEffect(()=> {
     if(newTabState.newTab === true){
       router.push("/");
@@ -74,7 +74,13 @@ const Texteditor: NextPage = (): JSX.Element => {
         clicked: false,
         newTab: false,
       })
-    }
+    };
+
+    setDeleteButtonState({
+      ...deleteButtonStateData,
+      clicked: false,
+      openPopup: false,
+    });
   },[newTabState]);
   
   const handleDeleteButtonClick =()=> {
@@ -116,6 +122,7 @@ const Texteditor: NextPage = (): JSX.Element => {
   const [currentQuill, setCurrentQuill] = useState<Quill | null>(null);
   const [singleDoc, setSingleDoc] = useState<typeof docValidationSchema | null>(null);
   const [fetchedData, setFetchedData] = useState<Docstype | null>(null);
+
 
 
 
@@ -174,7 +181,7 @@ const Texteditor: NextPage = (): JSX.Element => {
         q.on('text-change', (delta, oldDelta, source) => {
           if (source === 'user') {
           }
-        })
+        });
         setQuill(q);
       }
     });
@@ -235,35 +242,36 @@ const Texteditor: NextPage = (): JSX.Element => {
 
  
 
-  const handleUpdate = async () => {
-    const delta = quill?.getContents();
-
-    if (!delta) {
-      console.log('Quill content is empty');
-      return;
-    };
-
-    let convertedDocsId: string;
-
-    if (Array.isArray(docsId)) {
-      convertedDocsId = docsId.join(',');
-    } else {
-      convertedDocsId = docsId || ''; // Use an empty string as a default if docsId is undefined
-    }
-    const res = await updateDocs.mutate({
-      docId:  convertedDocsId,
-      updatedData: {
-        name: "updated doc",
-        quillContent: delta.ops.map((item) => ({
-          insert: typeof item.insert === 'string' ? item.insert : '',
-          attributes: item.attributes || {},
-        })),
-      }
-    });
-    refetchDocs();
-  };
+ 
 
   useEffect(()=> {
+    const handleUpdate = async () => {
+      const delta = quill?.getContents();
+  
+      if (!delta) {
+        console.log('Quill content is empty');
+        return;
+      };
+  
+      let convertedDocsId: string;
+  
+      if (Array.isArray(docsId)) {
+        convertedDocsId = docsId.join(',');
+      } else {
+        convertedDocsId = docsId || ''; // Use an empty string as a default if docsId is undefined
+      }
+      const res = await updateDocs.mutate({
+        docId:  convertedDocsId,
+        updatedData: {
+          name: "updated doc",
+          quillContent: delta.ops.map((item) => ({
+            insert: typeof item.insert === 'string' ? item.insert : '',
+            attributes: item.attributes || {},
+          })),
+        }
+      });
+      refetchDocs();
+    };
     if(updateHandler.clicked){
       handleUpdate();
 
@@ -271,18 +279,18 @@ const Texteditor: NextPage = (): JSX.Element => {
 
   },[updateHandler])
 
-  const docIdToDelete = "8";
+  // const docIdToDelete = "8";
 
-  async function deleteDoc(docsId: string){
-    try {
-      const response = await api.post.deleteQuillDoc.useMutation({
-        docsId: docIdToDelete,
-      });
+  // async function deleteDoc(docsId: string){
+  //   try {
+  //     const response = await api.post.deleteQuillDoc.useMutation({
+  //       docsId: docIdToDelete,
+  //     });
       
-    } catch (error) {
-      console.error("Error deleting document:", error);
-    }
-  }
+  //   } catch (error) {
+  //     console.error("Error deleting document:", error);
+  //   }
+  // }
 
   // useEffect(() => {
   //   if (docId !== 'new' && quill) {
@@ -336,7 +344,7 @@ const Texteditor: NextPage = (): JSX.Element => {
         <div id="editor-wrapper" ref={wrapperRef}></div>
       </div>
        {/* <button onClick={handleSave} >save</button>  */}
-      <button onClick={handleUpdate} >update doc</button>
+      {/* <button onClick={handleUpdate} >update doc</button> */}
     </div>
 
   )
