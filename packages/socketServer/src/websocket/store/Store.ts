@@ -6,6 +6,7 @@ export interface Chat {
     userId: UserId,
     name: string,
     messages: string;
+
 };
 
 export abstract class Store {

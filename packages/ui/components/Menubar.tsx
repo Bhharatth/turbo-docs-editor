@@ -3,7 +3,7 @@ import * as Menubar from '@radix-ui/react-menubar';
 import { CheckIcon, ChevronRightIcon, DotFilledIcon } from '@radix-ui/react-icons';
 import { useRecoilState} from 'recoil';
 import { Newbutton } from './clickButton';
-import { DeleteButtonState, EditButtonState, deleteButtonState, editButtonState ,newTabButtonState, saveHandlerButtonState, savehandlerState, updateHandlerButtonState } from '@gdocs/recoilstore';
+import { DeleteButtonState, EditButtonState, deleteButtonState, editButtonState ,newTabButtonState, saveHandlerButtonState, savehandlerState, updateHandlerButtonState, userState } from '@gdocs/recoilstore';
 import DialogBox from "@gdocs/ui/components/plugins/dialogBox";
 
 
@@ -13,11 +13,12 @@ const CHECK_ITEMS = ['Always Show Bookmarks Bar', 'Always Show Full URLs'];
 const MenubarDemo = () => {
   const [checkedSelection, setCheckedSelection] = React.useState([CHECK_ITEMS[1]]);
   const [radioSelection, setRadioSelection] = React.useState(RADIO_ITEMS[2]);
-
+  const [user, setUser] = useRecoilState(userState);
   const [newTab, setNewTab] = useRecoilState(newTabButtonState);
   const [saveState, setSaveState] = useRecoilState(savehandlerState);
   const [savehandler, setSaveHandler] = useRecoilState(saveHandlerButtonState);
-  const [updateHandler, setUpdateHander] = useRecoilState(updateHandlerButtonState)
+  const [updateHandler, setUpdateHandler] = useRecoilState(updateHandlerButtonState);
+console.log(user)
 
   const handleSave=()=>{
    setSaveHandler({
@@ -28,7 +29,7 @@ const MenubarDemo = () => {
   };
 
   const handleUpdate=()=>{
-   setUpdateHander({
+   setUpdateHandler({
     clicked: true,
    });
    console.log("handle update is true")
@@ -63,13 +64,13 @@ const MenubarDemo = () => {
           >
             <Menubar.Item className="group text-[13px] leading-none text-violet11 rounded flex items-center h-[25px] px-[10px] relative select-none outline-none data-[state=open]:bg-violet4 data-[state=open]:text-violet11 data-[highlighted]:bg-gradient-to-br data-[highlighted]:from-violet9 data-[highlighted]:to-violet10 data-[highlighted]:text-violet1 data-[highlighted]:data-[state=open]:text-violet1 data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none"
            onClick={handleNewTab} >
-              New Tab{' '}
+              Create New{' '}
               <div className="ml-auto pl-5 text-mauve9 group-data-[highlighted]:text-white group-data-[disabled]:text-mauve8"  onClick={handleNewTab}>
                 ⌘ T
               </div>
             </Menubar.Item>
             <Menubar.Item className="group text-[13px] leading-none text-violet11 rounded flex items-center h-[25px] px-[10px] relative select-none outline-none data-[state=open]:bg-violet4 data-[state=open]:text-violet11 data-[highlighted]:bg-gradient-to-br data-[highlighted]:from-violet9 data-[highlighted]:to-violet10 data-[highlighted]:text-violet1 data-[highlighted]:data-[state=open]:text-violet1 data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none"
-            onClick={handleSave}>
+            onClick={() => setUpdateHandler({ clicked: true })}>
               Save Document{' '}
               <div className="ml-auto pl-5 text-mauve9 group-data-[highlighted]:text-white group-data-[disabled]:text-mauve8">
                 ⌘ N
@@ -78,7 +79,7 @@ const MenubarDemo = () => {
            
             <Menubar.Item
               className="text-[13px] leading-none text-violet11 rounded flex items-center h-[25px] px-[10px] relative select-none outline-none data-[state=open]:bg-violet4 data-[state=open]:text-violet11 data-[highlighted]:bg-gradient-to-br data-[highlighted]:from-violet9 data-[highlighted]:to-violet10 data-[highlighted]:text-violet1 data-[highlighted]:data-[state=open]:text-violet1 data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none"
-            onClick={()=> handleUpdate}
+            onClick={()=> handleUpdate()}
             >
              Save & Update
               
@@ -214,7 +215,7 @@ const MenubarDemo = () => {
                 <Menubar.ItemIndicator className="absolute left-0 w-5 inline-flex items-center justify-center">
                   <CheckIcon />
                 </Menubar.ItemIndicator>
-                {item}
+                {user.email}
               </Menubar.CheckboxItem>
             ))}
             <Menubar.Separator className="h-[1px] bg-violet6 m-[5px]" />
@@ -256,28 +257,12 @@ const MenubarDemo = () => {
             sideOffset={5}
             alignOffset={-14}
           >
-            <Menubar.RadioGroup value={radioSelection} onValueChange={setRadioSelection}>
-              {RADIO_ITEMS.map((item) => (
-                <Menubar.RadioItem
-                  className="text-[13px] leading-none text-violet11 rounded flex items-center h-[25px] px-[10px] relative select-none pl-5 outline-none data-[highlighted]:bg-gradient-to-br data-[highlighted]:from-violet9 data-[highlighted]:to-violet10 data-[highlighted]:text-violet1 data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none"
-                  key={item}
-                  value={item}
-                >
-                  <Menubar.ItemIndicator className="absolute left-0 w-5 inline-flex items-center justify-center">
-                    <DotFilledIcon />
-                  </Menubar.ItemIndicator>
-                  {item}
-                </Menubar.RadioItem>
-              ))}
-              <Menubar.Separator className="h-[1px] bg-violet6 m-[5px]" />
-              <Menubar.Item className="text-[13px] leading-none text-violet11 rounded flex items-center h-[25px] px-[10px] relative select-none pl-5 outline-none data-[state=open]:bg-violet4 data-[state=open]:text-violet11 data-[highlighted]:bg-gradient-to-br data-[highlighted]:from-violet9 data-[highlighted]:to-violet10 data-[highlighted]:text-violet1 data-[highlighted]:data-[state=open]:text-violet1 data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none">
-                Edit…
+            <Menubar.Item className="text-[13px] leading-none text-violet11 rounded flex items-center h-[25px] px-[10px] relative select-none pl-5 outline-none data-[state=open]:bg-violet4 data-[state=open]:text-violet11 data-[highlighted]:bg-gradient-to-br data-[highlighted]:from-violet9 data-[highlighted]:to-violet10 data-[highlighted]:text-violet1 data-[highlighted]:data-[state=open]:text-violet1 data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none">
+                {user.user}
               </Menubar.Item>
-              <Menubar.Separator className="h-[1px] bg-violet6 m-[5px]" />
-              <Menubar.Item className="text-[13px] leading-none text-violet11 rounded flex items-center h-[25px] px-[10px] relative select-none pl-5 outline-none data-[state=open]:bg-violet4 data-[state=open]:text-violet11 data-[highlighted]:bg-gradient-to-br data-[highlighted]:from-violet9 data-[highlighted]:to-violet10 data-[highlighted]:text-violet1 data-[highlighted]:data-[state=open]:text-violet1 data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none">
-                Add Profile…
+            <Menubar.Item className="text-[13px] leading-none text-violet11 rounded flex items-center h-[25px] px-[10px] relative select-none pl-5 outline-none data-[state=open]:bg-violet4 data-[state=open]:text-violet11 data-[highlighted]:bg-gradient-to-br data-[highlighted]:from-violet9 data-[highlighted]:to-violet10 data-[highlighted]:text-violet1 data-[highlighted]:data-[state=open]:text-violet1 data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none" onClick={()=> {}}>
+                logout
               </Menubar.Item>
-            </Menubar.RadioGroup>
           </Menubar.Content>
         </Menubar.Portal>
       </Menubar.Menu>

@@ -1,6 +1,7 @@
 import { Chat, Store, UserId } from "./Store";
 let globalChatId = 0;
 
+
 export interface Room {
     roomId: string;
     chats: Chat[]
@@ -41,7 +42,7 @@ export class InMemoryStore implements Store {
             name,
             message
         }
-        room.chats.push(chat)
+        // room.chats.push(chat)
         return chat;
         
     }

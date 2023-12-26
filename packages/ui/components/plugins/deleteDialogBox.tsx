@@ -32,7 +32,7 @@ const DeleteDialogBox = () => {
     return (
       <div className="fixed top-0 left-0 right-0 bg-black bg-opacity-60 flex items-center justify-center h-screen z-10">
         <div className="bg-white p-6 rounded shadow-lg max-w-md">
-          <h2 className="text-2xl font-bold mb-4">Edit Document Name</h2>
+          <h2 className="text-2xl font-bold mb-4">Delete Document</h2>
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
           This will delete your entire document.. are you sure!
           </label>

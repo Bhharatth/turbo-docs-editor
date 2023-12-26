@@ -10,9 +10,16 @@ const DialogBox = () => {
   const [saveState, setSaveState] = useRecoilState(savehandlerState);
   const [currentName, setCurrentName] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [error, setError] = useState("");
   
 
   const handleSaves=(newValues:any)=>{
+    if(!currentName){
+      setError("Please enter a name");
+      return;
+
+    }
+    setError("");
     setSaveState({
       ...saveState,
       clicked: false,
@@ -20,6 +27,15 @@ const DialogBox = () => {
       saveDoc: true,
     });
   };
+
+  const handleCancel=()=> {
+  setSaveState({
+    clicked: false,
+    saveDoc: false,
+    docName: null
+  });
+  setError("")
+  }
   
 
   
@@ -35,17 +51,26 @@ const DialogBox = () => {
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="name"
             type="text"
-            placeholder="Pedro Duarte"
+            placeholder="New Doc"
             value={currentName}
             onChange={(e) => setCurrentName(e.target.value)}
           />
-          <div className="mt-4 flex justify-end">
+           {error && <p className="text-orange-500 text-sm mt-2">{error}</p>}
+          <div className="mt-4 flex justify-between">
+          <button
+              className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              onClick={handleCancel}
+            >
+              cancel
+            </button>
+
             <button
               className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               onClick={handleSaves}
             >
-              Save
+              Create
             </button>
+          
           </div>
         </div>
       </div>
