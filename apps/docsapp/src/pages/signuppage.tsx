@@ -68,7 +68,10 @@ const SignUp: NextPage = (props): JSX.Element => {
     }
   };
 
-
+  const gotoLogin=()=> {
+    router.push("/loginpage")
+  }
+  
 
   return (
     <section className="bg-center bg-no-repeat bg-[url('https://flowbite.s3.amazonaws.com/docs/jumbotron/conference.jpg')] bg-gray-700 bg-blend-multiply overflow-hidden z-0">
@@ -80,7 +83,7 @@ const SignUp: NextPage = (props): JSX.Element => {
       <button
         className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 w-25 mx-20 "
         type="button"
-        
+        onClick={()=> gotoLogin()}
       >
         Login
       </button>

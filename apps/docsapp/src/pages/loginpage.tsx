@@ -9,7 +9,7 @@ import { useToasts } from 'react-toast-notifications';
 
 
 function Login() {
-  const router = useRouter()
+  const router = useRouter();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -17,7 +17,6 @@ function Login() {
   const { addToast } = useToasts();
   const handleSubmit = async (e:any) => {
     e.preventDefault();
-    const router = useRouter();
 
     try {
         signIn("credentials", {
@@ -39,8 +38,8 @@ function Login() {
     }
  
   }
-  const gotoLogin=()=> {
-    router.push("/")
+  const gotoSignup=()=> {
+    router.push("/signuppage")
   }
   
 
@@ -55,9 +54,9 @@ function Login() {
         className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 w-25 mx-20 "
         type="button"
         // disabled={}
-        onClick={gotoLogin}
+        onClick={()=>gotoSignup()}
       >
-        Login
+        Signup
       </button>
       {/* <button className="flex flex-row text-xl" onClick={() => signIn('github')}>
         or login with github

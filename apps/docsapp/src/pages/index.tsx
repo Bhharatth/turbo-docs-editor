@@ -4,7 +4,7 @@ import FileICon from "@gdocs/ui/components/plugins/fileIcon";
 import DialogBox from "@gdocs/ui/components/plugins/dialogBox";
 import DeleteDialogBox from "@gdocs/ui/components/plugins/deleteDialogBox";
 import { useRouter } from 'next/router';
-import { deleteButtonState, editButtonState, newTabButtonState, savehandlerState, userState } from "@gdocs/recoilstore";
+import { HomeButtonState, deleteButtonState, editButtonState, newTabButtonState, savehandlerState, userState } from "@gdocs/recoilstore";
 import { useRecoilValue, useRecoilState } from "recoil";
 import { useEffect } from "react";
 export default function Home() {
@@ -13,6 +13,7 @@ export default function Home() {
   const deleteButtonId = useRecoilValue(deleteButtonState) || "";
   const [saveState, setSaveState] = useRecoilState(savehandlerState);
   const [deleteButtonStateData, setDeleteButtonState] = useRecoilState(deleteButtonState)
+  const [homeButtonHandler, setHomeButtonHandler] = useRecoilState(HomeButtonState)
   const [user, setUser] = useRecoilState(userState);
   const router = useRouter();
 
@@ -46,6 +47,12 @@ export default function Home() {
     });
   }, [session || router]);
 
+  useEffect(()=>{
+    setHomeButtonHandler({
+      clicked: false
+    })
+
+  },[])
 
   useEffect(() => {
     if (newTabState.newTab === true) {
@@ -58,7 +65,7 @@ export default function Home() {
         newTab: false,
       })
     }
-  }, [newTabState]);
+  }, [newTabState, router]);
 
   const handleOperationClicked = () => {
     if (editButtonId.clicked && editButtonId.data !== null) {
@@ -116,18 +123,28 @@ export default function Home() {
     isLoading: loadingQuillDocs,
   } = api.post.getQuillDocs.useQuery();
 
+
+
   useEffect(() => {
-    if (!session?.data?.user) {
-      router.push("/signuppage");
+    if (typeof window !== 'undefined') {
+      if (!session?.data?.user ) {
+        router.push("/signuppage");
+        console.log('not authenticated');
+        console.log(session.data)
+      }else{
+        console.log('not authenticated')
+      }
     }
-  }, [session, router]);
+  }, [user]);
+
+  
    
 
   return (
    
     <div className="lg:max-h-screen flex flex-wrap">
       
- 
+
 
       <div className="flex flex-row bg-grey border border-solid border-gray-300 rounded cursor-pointer overflow-hidden relative mt-5 mx-5 mb-10 p-4 w-1/6 h-100%">
         <div className="flex mt-n4 overflow-hidden pt-4 whitespace-nowrap w-25% h-90% align-middle justify-center" >
