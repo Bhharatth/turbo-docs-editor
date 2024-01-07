@@ -3,4 +3,4 @@ export * from './toastDemo';
 export * from './fileIcon';
 export * from './alertDemo';
 export * from './dialogBox';
-export * from './deleteDialogBox'
+export * from './deleteDialogBox';

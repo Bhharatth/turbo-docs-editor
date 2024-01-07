@@ -1,10 +1,12 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, {  useEffect, useRef, useState } from 'react';
 import Quill from "quill";
 import {  api } from "@/utils/api";
 import "quill/dist/quill.snow.css";
-import { appendFile } from 'fs';
-import { signOut, useSession } from "next-auth/react";
+import {  useSession } from "next-auth/react";
 import { NextPage } from "next";
+import { useRouter } from 'next/router';
+
+const router = useRouter()
 
 
 const TOOLBAR_OPTIONS = [
@@ -88,6 +90,13 @@ const createDocs = api.post.saveQuillDocs.useMutation({
   }
 
 //   console.log(quill)
+
+useEffect(() => {
+  if (!session?.data?.user) {
+    router.push("/signuppage");
+  }
+}, [session, router]);
+
 
   return (
     <div className='relative'>

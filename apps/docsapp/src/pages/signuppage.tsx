@@ -4,10 +4,8 @@ import * as Form from '@radix-ui/react-form';
 import {  api } from "@/utils/api";
 import { useRouter } from "next/navigation";
 import { useToasts } from 'react-toast-notifications';
-
-import { FaGithub } from "react-icons/fa";
-import { object } from "zod";
 import { SignUpResponse } from "@/common/authSchema";
+import { signIn } from "next-auth/react";
 
 interface Props {}
 
@@ -26,6 +24,20 @@ const SignUp: NextPage = (props): JSX.Element => {
       if(res){
         console.log('User created successfully');
         addToast(res.message, { appearance: 'success', containerId: 'specificDivId' });
+
+        try {
+          signIn("credentials", {
+            email,
+            password,
+            redirect: false
+          });
+          
+        } catch (error) {
+          console.log(error)
+          
+        }
+        router.push("/")
+       
       }
   
       // router.push("/")
