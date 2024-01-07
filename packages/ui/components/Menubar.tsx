@@ -3,7 +3,7 @@ import * as Menubar from '@radix-ui/react-menubar';
 import { CheckIcon, ChevronRightIcon, DotFilledIcon } from '@radix-ui/react-icons';
 import { useRecoilState} from 'recoil';
 import { Newbutton } from './clickButton';
-import { DeleteButtonState, EditButtonState, deleteButtonState, editButtonState ,newTabButtonState, saveHandlerButtonState, savehandlerState, updateHandlerButtonState, userState } from '@gdocs/recoilstore';
+import { DeleteButtonState, EditButtonState, deleteButtonState, editButtonState ,newTabButtonState, saveHandlerButtonState, savehandlerState, updateHandlerButtonState, userState,HomeButtonState } from '@gdocs/recoilstore';
 import DialogBox from "@gdocs/ui/components/plugins/dialogBox";
 
 
@@ -17,6 +17,7 @@ const MenubarDemo = () => {
   const [newTab, setNewTab] = useRecoilState(newTabButtonState);
   const [saveState, setSaveState] = useRecoilState(savehandlerState);
   const [savehandler, setSaveHandler] = useRecoilState(saveHandlerButtonState);
+  const [homeButtonHandler, setHomeButtonHandler] = useRecoilState(HomeButtonState)
   const [updateHandler, setUpdateHandler] = useRecoilState(updateHandlerButtonState);
 console.log(user)
 
@@ -24,7 +25,6 @@ console.log(user)
    setSaveHandler({
     clicked: true,
    });
-   console.log("handle save is true")
     
   };
 
@@ -32,22 +32,24 @@ console.log(user)
    setUpdateHandler({
     clicked: true,
    });
-   console.log("handle update is true")
   };
 
   React.useEffect(()=> {
-    console.log("save state",savehandler)
   },[ savehandler])
 
   const handleNewTab=()=> {
-    console.log('hi from new tab 1')
     setNewTab({
       clicked: true,
       newTab: true
     })
-    console.log('hi from new tab 2')
   }
-
+ const HomeTab =()=> {
+  setHomeButtonHandler(
+    {
+      clicked: true
+    }
+  )
+ }
  
   return (
     <Menubar.Root className="flex p-[3px] rounded-md z-5">
@@ -63,6 +65,13 @@ console.log(user)
             alignOffset={-3}
           >
             <Menubar.Item className="group text-[13px] leading-none text-violet11 rounded flex items-center h-[25px] px-[10px] relative select-none outline-none data-[state=open]:bg-violet4 data-[state=open]:text-violet11 data-[highlighted]:bg-gradient-to-br data-[highlighted]:from-violet9 data-[highlighted]:to-violet10 data-[highlighted]:text-violet1 data-[highlighted]:data-[state=open]:text-violet1 data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none"
+           onClick={HomeTab} >
+              Home{' '}
+              <div className="ml-auto pl-5 text-mauve9 group-data-[highlighted]:text-white group-data-[disabled]:text-mauve8"  onClick={handleNewTab}>
+                ⌘ T
+              </div>
+            </Menubar.Item>
+            <Menubar.Item className="group text-[13px] leading-none text-violet11 rounded flex items-center h-[25px] px-[10px] relative select-none outline-none data-[state=open]:bg-violet4 data-[state=open]:text-violet11 data-[highlighted]:bg-gradient-to-br data-[highlighted]:from-violet9 data-[highlighted]:to-violet10 data-[highlighted]:text-violet1 data-[highlighted]:data-[state=open]:text-violet1 data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none"
            onClick={handleNewTab} >
               Create New{' '}
               <div className="ml-auto pl-5 text-mauve9 group-data-[highlighted]:text-white group-data-[disabled]:text-mauve8"  onClick={handleNewTab}>
@@ -70,7 +79,7 @@ console.log(user)
               </div>
             </Menubar.Item>
             <Menubar.Item className="group text-[13px] leading-none text-violet11 rounded flex items-center h-[25px] px-[10px] relative select-none outline-none data-[state=open]:bg-violet4 data-[state=open]:text-violet11 data-[highlighted]:bg-gradient-to-br data-[highlighted]:from-violet9 data-[highlighted]:to-violet10 data-[highlighted]:text-violet1 data-[highlighted]:data-[state=open]:text-violet1 data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none"
-            onClick={() => setUpdateHandler({ clicked: true })}>
+            onClick={() => handleSave()}>
               Save Document{' '}
               <div className="ml-auto pl-5 text-mauve9 group-data-[highlighted]:text-white group-data-[disabled]:text-mauve8">
                 ⌘ N
@@ -86,12 +95,12 @@ console.log(user)
             </Menubar.Item>
             <Menubar.Separator className="h-[1px] bg-violet6 m-[5px]" />
             <Menubar.Sub>
-              <Menubar.SubTrigger className="group text-[13px] leading-none text-violet11 rounded flex items-center h-[25px] px-[10px] relative select-none outline-none data-[state=open]:bg-violet4 data-[state=open]:text-violet11 data-[highlighted]:bg-gradient-to-br data-[highlighted]:from-violet9 data-[highlighted]:to-violet10 data-[highlighted]:text-violet1 data-[highlighted]:data-[state=open]:text-violet1 data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none">
+              {/* <Menubar.SubTrigger className="group text-[13px] leading-none text-violet11 rounded flex items-center h-[25px] px-[10px] relative select-none outline-none data-[state=open]:bg-violet4 data-[state=open]:text-violet11 data-[highlighted]:bg-gradient-to-br data-[highlighted]:from-violet9 data-[highlighted]:to-violet10 data-[highlighted]:text-violet1 data-[highlighted]:data-[state=open]:text-violet1 data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none disabled">
                 Share
                 <div className="ml-auto pl-5 text-mauve9 group-data-[highlighted]:text-white group-data-[disabled]:text-mauve8">
                   <ChevronRightIcon />
                 </div>
-              </Menubar.SubTrigger>
+              </Menubar.SubTrigger> */}
               <Menubar.Portal>
                 <Menubar.SubContent
                   className="min-w-[220px] bg-white rounded-md p-[5px] shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),_0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)] [animation-duration:_400ms] [animation-timing-function:_cubic-bezier(0.16,_1,_0.3,_1)] will-change-[transform,opacity]"
@@ -122,9 +131,9 @@ console.log(user)
       </Menubar.Menu>
 
       <Menubar.Menu>
-        <Menubar.Trigger className="py-2 px-3 outline-none select-none font-medium leading-none rounded text-violet11 text-[13px] flex items-center justify-between gap-[2px] data-[highlighted]:bg-violet4 data-[state=open]:bg-violet4">
+        {/* <Menubar.Trigger className="py-2 px-3 outline-none select-none font-medium leading-none rounded text-violet11 text-[13px] flex items-center justify-between gap-[2px] data-[highlighted]:bg-violet4 data-[state=open]:bg-violet4">
           Edit
-        </Menubar.Trigger>
+        </Menubar.Trigger> */}
         <Menubar.Portal>
           <Menubar.Content
             className="min-w-[220px] bg-white rounded-md p-[5px] shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),_0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)] [animation-duration:_400ms] [animation-timing-function:_cubic-bezier(0.16,_1,_0.3,_1)] will-change-[transform,opacity]"
@@ -225,23 +234,15 @@ console.log(user)
                 ⌘ R
               </div>
             </Menubar.Item>
-            <Menubar.Item
-              className="group text-[13px] leading-none text-violet11 rounded flex items-center h-[25px] px-[10px] relative select-none pl-5 outline-none data-[state=open]:bg-violet4 data-[state=open]:text-violet11 data-[highlighted]:bg-gradient-to-br data-[highlighted]:from-violet9 data-[highlighted]:to-violet10 data-[highlighted]:text-violet1 data-[highlighted]:data-[state=open]:text-violet1 data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none"
-              disabled
-            >
-              Force Reload{' '}
-              <div className="ml-auto pl-5 text-mauve9 group-data-[highlighted]:text-white group-data-[disabled]:text-mauve8">
-                ⇧ ⌘ R
-              </div>
-            </Menubar.Item>
+           
             <Menubar.Separator className="h-[1px] bg-violet6 m-[5px]" />
-            <Menubar.Item className="text-[13px] leading-none text-violet11 rounded flex items-center h-[25px] px-[10px] relative select-none pl-5 outline-none data-[state=open]:bg-violet4 data-[state=open]:text-violet11 data-[highlighted]:bg-gradient-to-br data-[highlighted]:from-violet9 data-[highlighted]:to-violet10 data-[highlighted]:text-violet1 data-[highlighted]:data-[state=open]:text-violet1 data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none">
+            {/* <Menubar.Item className="text-[13px] leading-none text-violet11 rounded flex items-center h-[25px] px-[10px] relative select-none pl-5 outline-none data-[state=open]:bg-violet4 data-[state=open]:text-violet11 data-[highlighted]:bg-gradient-to-br data-[highlighted]:from-violet9 data-[highlighted]:to-violet10 data-[highlighted]:text-violet1 data-[highlighted]:data-[state=open]:text-violet1 data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none">
               Toggle Fullscreen
-            </Menubar.Item>
+            </Menubar.Item> */}
             <Menubar.Separator className="h-[1px] bg-violet6 m-[5px]" />
-            <Menubar.Item className="text-[13px] leading-none text-violet11 rounded flex items-center h-[25px] px-[10px] relative select-none pl-5 outline-none data-[state=open]:bg-violet4 data-[state=open]:text-violet11 data-[highlighted]:bg-gradient-to-br data-[highlighted]:from-violet9 data-[highlighted]:to-violet10 data-[highlighted]:text-violet1 data-[highlighted]:data-[state=open]:text-violet1 data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none">
+            {/* <Menubar.Item className="text-[13px] leading-none text-violet11 rounded flex items-center h-[25px] px-[10px] relative select-none pl-5 outline-none data-[state=open]:bg-violet4 data-[state=open]:text-violet11 data-[highlighted]:bg-gradient-to-br data-[highlighted]:from-violet9 data-[highlighted]:to-violet10 data-[highlighted]:text-violet1 data-[highlighted]:data-[state=open]:text-violet1 data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none">
               Hide Sidebar
-            </Menubar.Item>
+            </Menubar.Item> */}
           </Menubar.Content>
         </Menubar.Portal>
       </Menubar.Menu>

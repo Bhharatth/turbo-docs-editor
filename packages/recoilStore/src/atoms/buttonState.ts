@@ -76,6 +76,17 @@ export const newTabButtonState = atom<NewTabButtonState>({
         newTab: null
     }
 });
+export type homeButtonState={
+    clicked:boolean
+};
+
+export const HomeButtonState = atom<homeButtonState>({
+    key: 'homeButtonAtom',
+    default: {
+        clicked: false,
+    }
+});
+
 export type SaveButtonState ={
     clicked: boolean;
 }

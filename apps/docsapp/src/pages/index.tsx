@@ -1,4 +1,4 @@
-import { signIn, signOut, useSession } from "next-auth/react";
+import {  signOut, useSession } from "next-auth/react";
 import { api } from "@/utils/api";
 import FileICon from "@gdocs/ui/components/plugins/fileIcon";
 import DialogBox from "@gdocs/ui/components/plugins/dialogBox";
@@ -116,8 +116,18 @@ export default function Home() {
     isLoading: loadingQuillDocs,
   } = api.post.getQuillDocs.useQuery();
 
+  useEffect(() => {
+    if (!session?.data?.user) {
+      router.push("/signuppage");
+    }
+  }, [session, router]);
+   
+
   return (
+   
     <div className="lg:max-h-screen flex flex-wrap">
+      
+ 
 
       <div className="flex flex-row bg-grey border border-solid border-gray-300 rounded cursor-pointer overflow-hidden relative mt-5 mx-5 mb-10 p-4 w-1/6 h-100%">
         <div className="flex mt-n4 overflow-hidden pt-4 whitespace-nowrap w-25% h-90% align-middle justify-center" >
@@ -142,14 +152,11 @@ export default function Home() {
     </div>
   </div>
 ))}
-
       {getDocs?.map((item) => (
 
         <FileICon key={item.id} id={item.id} fileId={item.id} createdAt={item.createdAt} fileName={item.name}
         />
       ))}
-      
-      
     </div>
   );
 }

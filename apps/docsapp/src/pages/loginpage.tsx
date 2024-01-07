@@ -3,9 +3,13 @@ import * as Form from '@radix-ui/react-form';
 // import {Button} from "@gsocs/ui"
 import { signIn, useSession } from "next-auth/react";
 import { FaGithub } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 import { useToasts } from 'react-toast-notifications';
 
+
+
 function Login() {
+  const router = useRouter()
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -13,6 +17,7 @@ function Login() {
   const { addToast } = useToasts();
   const handleSubmit = async (e:any) => {
     e.preventDefault();
+    const router = useRouter();
 
     try {
         signIn("credentials", {
@@ -23,7 +28,7 @@ function Login() {
       await new Promise((resolve) => setTimeout(resolve, 
         3000));
       console.log('User logged in successfully', data);
-
+      router.push("/")
       if(!data){
 
         addToast("user not logged in", { appearance: 'error', containerId: 'specificDivId' });
@@ -33,6 +38,9 @@ function Login() {
       addToast("please enter correct email and password", { appearance: 'success', containerId: 'specificDivId' });
     }
  
+  }
+  const gotoLogin=()=> {
+    router.push("/")
   }
   
 
@@ -47,6 +55,7 @@ function Login() {
         className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 w-25 mx-20 "
         type="button"
         // disabled={}
+        onClick={gotoLogin}
       >
         Login
       </button>
