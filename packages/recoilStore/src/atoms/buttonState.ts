@@ -76,6 +76,17 @@ export const newTabButtonState = atom<NewTabButtonState>({
         newTab: null
     }
 });
+export type logoutButtonState ={
+    clicked: boolean;
+}
+
+export const LogoutButtonState = atom<logoutButtonState>({
+    key: 'LogoutButtonAtom',
+    default: {
+        clicked: false,
+    }
+});
+
 export type homeButtonState={
     clicked:boolean
 };

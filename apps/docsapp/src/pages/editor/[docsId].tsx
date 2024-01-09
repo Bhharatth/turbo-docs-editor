@@ -34,6 +34,7 @@ const Texteditor: NextPage = (): JSX.Element => {
   const [deleteButtonStateData, setDeleteButtonState]  = useRecoilState(deleteButtonState);
   const [savehandler, setSaveHandler] = useRecoilState(saveHandlerButtonState);
   const [updateHandler, setUpdateHandler] = useRecoilState(updateHandlerButtonState);
+  const { data: sessionData } = useSession();
 
   const [newTabState, setNewTabState] = useRecoilState(newTabButtonState);
   const [saveState, setSaveState] = useRecoilState(savehandlerState);
@@ -50,13 +51,7 @@ const Texteditor: NextPage = (): JSX.Element => {
   },[])
   
 
-  // const handleSaves=()=>{
-  //   setSaveState({
-  //     clicked: true,
-  //     docName: null
-  //   });
-   
-  // };
+ 
 
   useEffect(()=> {
 
@@ -154,7 +149,6 @@ const Texteditor: NextPage = (): JSX.Element => {
      refetchDocs();
     },
     onError: (error) => {
-      alert(error);
       console.log(error)
     }
   });
@@ -331,6 +325,19 @@ const Texteditor: NextPage = (): JSX.Element => {
     quill?.setContents(fetchedData);
   }
   ), [quill, fetchedData]
+
+  
+useEffect(()=> {
+  if(!sessionData){
+    console.log("no sessiondata");
+    if (typeof window !== 'undefined') {
+      router.push("/signuppage")
+    }
+    return
+  }
+
+},[])
+
 
 
 

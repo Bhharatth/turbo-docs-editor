@@ -5,11 +5,14 @@ import { signIn, useSession } from "next-auth/react";
 import { FaGithub } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { useToasts } from 'react-toast-notifications';
+import { LogoutButtonState } from '@gdocs/recoilstore';
+import { useRecoilState } from 'recoil';
 
 
 
 function Login() {
   const router = useRouter();
+  const [logoutHandler, setLogoutHandler] = useRecoilState(LogoutButtonState)
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -23,6 +26,9 @@ function Login() {
         email,
         password,
         redirect: false
+      });
+      setLogoutHandler({
+        clicked: false
       })
       await new Promise((resolve) => setTimeout(resolve, 
         3000));
