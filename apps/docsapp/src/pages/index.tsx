@@ -27,7 +27,7 @@ export default function Home() {
   const handlePopup = () => {
     setSaveState({
       clicked: true,
-      docName: null,
+      docName: "",
       saveDoc: false,
     })
   }

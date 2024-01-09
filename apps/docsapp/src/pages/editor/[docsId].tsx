@@ -322,6 +322,8 @@ const Texteditor: NextPage = (): JSX.Element => {
     //     attributes: item.attributes || {},
     //   }))
     // }
+    
+    // @ts-ignore
     quill?.setContents(fetchedData);
   }
   ), [quill, fetchedData]

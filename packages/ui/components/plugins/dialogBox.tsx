@@ -32,7 +32,7 @@ const DialogBox = () => {
   setSaveState({
     clicked: false,
     saveDoc: false,
-    docName: null
+    docName: ""
   });
   setError("")
   }

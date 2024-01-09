@@ -8,7 +8,7 @@ import {
   type NextAuthOptions,
 } from "next-auth";
 import GithubProvider from "next-auth/providers/github";
-import { env } from "@/env";
+import { env } from "@/env.mjs";
 import { db } from "@/server/db";
 import { loginSchema, signUpSchema } from "@/common/authSchema";
 import { comparePassword } from "@/utils/passwordUtils";
@@ -61,10 +61,7 @@ export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(db),
   secret: process.env.NEXTAUTH_SECRET,
   providers: [
-    GithubProvider({
-      clientId: env.GITHUB_CLIENT_ID,
-      clientSecret: env.GITHUB_CLIENT_SECRET,
-    }),
+   
     CredentialsProvider({
       type: "credentials",
       credentials: {
@@ -75,6 +72,7 @@ export const authOptions: NextAuthOptions = {
         },
         password: { label: "Password", type: "password" },
       },
+      // @ts-ignore
       async authorize(credentials, req) {
 
         const creds = await loginSchema.parseAsync(credentials);

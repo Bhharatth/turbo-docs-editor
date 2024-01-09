@@ -119,7 +119,7 @@ export const savehandlerState = atom({
     key: 'saveHandlerAtom',
     default: {
         clicked: false,
-        docName: null,
+        docName: "",
         saveDoc: false
     }
 })
