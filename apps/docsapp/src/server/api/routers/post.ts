@@ -117,7 +117,7 @@ export const postRouter = createTRPCRouter({
             insert: item.insert,
             attributes: item.attributes,
           })),
-          name: input.updatedData.name,
+          // name: input.updatedData.name,
         },
       });
       

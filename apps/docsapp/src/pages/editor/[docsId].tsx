@@ -257,7 +257,7 @@ const Texteditor: NextPage = (): JSX.Element => {
       const res = await updateDocs.mutate({
         docId:  convertedDocsId,
         updatedData: {
-          name: "updated doc",
+          // name: "updated doc",
           quillContent: delta.ops.map((item) => ({
             insert: typeof item.insert === 'string' ? item.insert : '',
             attributes: item.attributes || {},
