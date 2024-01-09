@@ -6,11 +6,14 @@ import { useRouter } from "next/navigation";
 import { useToasts } from 'react-toast-notifications';
 import { SignUpResponse } from "@/common/authSchema";
 import { signIn } from "next-auth/react";
+import { LogoutButtonState } from "@gdocs/recoilstore";
+import { useRecoilState } from "recoil";
 
 interface Props {}
 
 const SignUp: NextPage = (props): JSX.Element => {
   const router = useRouter();
+  const [logoutHandler, setLogoutHandler] = useRecoilState(LogoutButtonState)
   const {mutate: signUpUser}= api.account.signup.useMutation();
   
   const [userName, setuserName] = useState<string>("");
@@ -31,6 +34,11 @@ const SignUp: NextPage = (props): JSX.Element => {
             password,
             redirect: false
           });
+          router.push("/")
+
+          setLogoutHandler({
+            clicked: false
+          })
           
         } catch (error) {
           console.log(error)

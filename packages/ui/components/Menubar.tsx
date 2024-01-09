@@ -3,7 +3,7 @@ import * as Menubar from '@radix-ui/react-menubar';
 import { CheckIcon, ChevronRightIcon, DotFilledIcon } from '@radix-ui/react-icons';
 import { useRecoilState} from 'recoil';
 import { Newbutton } from './clickButton';
-import { DeleteButtonState, EditButtonState, deleteButtonState, editButtonState ,newTabButtonState, saveHandlerButtonState, savehandlerState, updateHandlerButtonState, userState,HomeButtonState } from '@gdocs/recoilstore';
+import { DeleteButtonState, EditButtonState, deleteButtonState, editButtonState ,newTabButtonState, saveHandlerButtonState, savehandlerState, updateHandlerButtonState, userState,HomeButtonState, LogoutButtonState } from '@gdocs/recoilstore';
 import DialogBox from "@gdocs/ui/components/plugins/dialogBox";
 
 
@@ -19,6 +19,7 @@ const MenubarDemo = () => {
   const [savehandler, setSaveHandler] = useRecoilState(saveHandlerButtonState);
   const [homeButtonHandler, setHomeButtonHandler] = useRecoilState(HomeButtonState)
   const [updateHandler, setUpdateHandler] = useRecoilState(updateHandlerButtonState);
+  const [logoutHandler, setLogoutHandler] = useRecoilState(LogoutButtonState)
 console.log(user)
 
   const handleSave=()=>{
@@ -48,7 +49,15 @@ console.log(user)
     {
       clicked: true
     }
-  )
+  );
+  console.log("go to home");
+  console.log(homeButtonHandler.clicked)
+ }
+ const logoutButtonHandler = ()=> {
+  setLogoutHandler({
+    clicked: true
+  })
+
  }
  
   return (
@@ -65,7 +74,7 @@ console.log(user)
             alignOffset={-3}
           >
             <Menubar.Item className="group text-[13px] leading-none text-violet11 rounded flex items-center h-[25px] px-[10px] relative select-none outline-none data-[state=open]:bg-violet4 data-[state=open]:text-violet11 data-[highlighted]:bg-gradient-to-br data-[highlighted]:from-violet9 data-[highlighted]:to-violet10 data-[highlighted]:text-violet1 data-[highlighted]:data-[state=open]:text-violet1 data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none"
-           onClick={HomeTab} >
+           onClick={handleNewTab} > 
               Home{' '}
               <div className="ml-auto pl-5 text-mauve9 group-data-[highlighted]:text-white group-data-[disabled]:text-mauve8"  onClick={handleNewTab}>
                 ⌘ T
@@ -261,7 +270,7 @@ console.log(user)
             <Menubar.Item className="text-[13px] leading-none text-violet11 rounded flex items-center h-[25px] px-[10px] relative select-none pl-5 outline-none data-[state=open]:bg-violet4 data-[state=open]:text-violet11 data-[highlighted]:bg-gradient-to-br data-[highlighted]:from-violet9 data-[highlighted]:to-violet10 data-[highlighted]:text-violet1 data-[highlighted]:data-[state=open]:text-violet1 data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none">
                 {user.user}
               </Menubar.Item>
-            <Menubar.Item className="text-[13px] leading-none text-violet11 rounded flex items-center h-[25px] px-[10px] relative select-none pl-5 outline-none data-[state=open]:bg-violet4 data-[state=open]:text-violet11 data-[highlighted]:bg-gradient-to-br data-[highlighted]:from-violet9 data-[highlighted]:to-violet10 data-[highlighted]:text-violet1 data-[highlighted]:data-[state=open]:text-violet1 data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none" onClick={()=> {}}>
+            <Menubar.Item className="text-[13px] leading-none text-violet11 rounded flex items-center h-[25px] px-[10px] relative select-none pl-5 outline-none data-[state=open]:bg-violet4 data-[state=open]:text-violet11 data-[highlighted]:bg-gradient-to-br data-[highlighted]:from-violet9 data-[highlighted]:to-violet10 data-[highlighted]:text-violet1 data-[highlighted]:data-[state=open]:text-violet1 data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none" onClick={()=> logoutButtonHandler()}>
                 logout
               </Menubar.Item>
           </Menubar.Content>

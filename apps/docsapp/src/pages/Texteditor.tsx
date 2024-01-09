@@ -5,7 +5,7 @@ import "quill/dist/quill.snow.css";
 import {  useSession } from "next-auth/react";
 import { NextPage } from "next";
 import { useRouter } from 'next/router';
-import { HomeButtonState } from '@gdocs/recoilstore';
+import { HomeButtonState, userState } from '@gdocs/recoilstore';
 import { useRecoilState } from 'recoil';
 
 const router = useRouter()
@@ -24,7 +24,9 @@ const TOOLBAR_OPTIONS = [
 ]
 
 const Texteditor:NextPage=():JSX.Element=>  {
-  const [homeButtonHandler, setHomeButtonHandler] = useRecoilState(HomeButtonState)
+  const [homeButtonHandler, setHomeButtonHandler] = useRecoilState(HomeButtonState);
+  const [user, setUser] = useRecoilState(userState);
+  const { data: sessionData } = useSession();
     const session = useSession();
     const userId = session.data?.user.id
     console.log(userId)
@@ -100,21 +102,23 @@ const createDocs = api.post.saveQuillDocs.useMutation({
       });
   }
 
-//   console.log(quill)
 
-useEffect(() => {
-  // Check if window is defined (client side)
-  if (typeof window !== 'undefined') {
-    // Your client-side code using router goes here
-    if (!session?.data?.user ) {
-      router.push("/signuppage");
-      console.log('not authenticated');
-      console.log(session.data)
-    }else{
-      console.log('not authenticated')
+
+useEffect(()=> {
+  if(!sessionData){
+    console.log("no sessiondata");
+    if (typeof window !== 'undefined') {
+      router.push("/signuppage")
     }
+    return
   }
-}, [router]);
+
+},[])
+
+
+
+
+
 
 
   return (
